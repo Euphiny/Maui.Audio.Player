@@ -8,9 +8,9 @@ public partial class AudioPlayer : IAudioPlayer
     private bool _isDisposed;
     
     private readonly AVPlayer _player;
-    
-    public double Progress { get; }
-    public double Duration { get; }
+
+    public double Progress => _player.CurrentTime.Seconds;
+    public double Duration => _player.CurrentItem?.Duration.Seconds ?? 0;
 
     public AudioPlayer(string url)
     {
