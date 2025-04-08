@@ -12,4 +12,14 @@ public partial class AudioPlayer
         var nsUrl = new NSUrl(url);
         _player = new AVPlayer(nsUrl);
     }
+    
+    public void Play()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Pause()
+    {
+        throw new NotImplementedException();
+    }
 }
