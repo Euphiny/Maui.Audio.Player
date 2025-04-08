@@ -4,13 +4,9 @@ public partial class AudioPlayer : IAudioPlayer
 {
     public AudioPlayer(string url) {}
     
-    public void Play()
-    {
-        
-    }
+    public void Play() {}
 
-    public void Pause()
-    {
-        
-    }
+    public void Pause() { }
+    
+    public void Dispose(bool disposing) {}
 }

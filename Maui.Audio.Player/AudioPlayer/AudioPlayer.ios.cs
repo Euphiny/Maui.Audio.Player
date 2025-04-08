@@ -22,4 +22,6 @@ public partial class AudioPlayer
     {
         _player.Pause();
     }
+    
+    public void Dispose(bool disposing) {}
 }

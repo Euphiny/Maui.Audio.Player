@@ -4,6 +4,8 @@ public partial class AudioPlayer : IAudioPlayer
 {
     public void Dispose()
     {
-        // TODO release managed resources here
+        Dispose(true);
+        
+        GC.SuppressFinalize(this);
     }
 }
