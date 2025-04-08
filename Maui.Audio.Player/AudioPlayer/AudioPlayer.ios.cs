@@ -32,6 +32,11 @@ public partial class AudioPlayer : IAudioPlayer
         _player.Pause();
     }
 
+    public void Seek(double position)
+    {
+        throw new NotImplementedException();
+    }
+
     public void Dispose(bool disposing)
     {
         if (_isDisposed)

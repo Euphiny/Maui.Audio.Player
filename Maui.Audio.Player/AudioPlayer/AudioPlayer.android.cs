@@ -17,6 +17,11 @@ public partial class AudioPlayer : IAudioPlayer
     {
         throw new NotImplementedException();
     }
-    
+
+    public void Seek(double position)
+    {
+        throw new NotImplementedException();
+    }
+
     public void Dispose(bool disposing) {}
 }

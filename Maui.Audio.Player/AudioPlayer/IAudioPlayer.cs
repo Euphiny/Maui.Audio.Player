@@ -9,4 +9,6 @@ public interface IAudioPlayer : IDisposable
     public void Play();
 
     public void Pause();
+    
+    public void Seek(double position);
 }

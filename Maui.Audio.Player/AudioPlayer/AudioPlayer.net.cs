@@ -9,8 +9,8 @@ public partial class AudioPlayer : IAudioPlayer
     public AudioPlayer(string url, double duration) {}
     
     public void Play() {}
-
     public void Pause() { }
-    
+    public void Seek(double position) { }
+
     public void Dispose(bool disposing) {}
 }
