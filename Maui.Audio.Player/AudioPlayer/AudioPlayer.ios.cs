@@ -1,4 +1,5 @@
 using AVFoundation;
+using CoreMedia;
 using Foundation;
 
 namespace Maui.Audio.Player.AudioPlayer;
@@ -34,7 +35,7 @@ public partial class AudioPlayer : IAudioPlayer
 
     public void Seek(double position)
     {
-        throw new NotImplementedException();
+        _player.Seek(CMTime.FromSeconds(position, 1));
     }
 
     public void Dispose(bool disposing)
