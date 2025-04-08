@@ -1,6 +1,6 @@
 namespace Maui.Audio.Player.AudioPlayer;
 
-public interface IAudioPlayer
+public interface IAudioPlayer : IDisposable
 {
     public void Play();
 
