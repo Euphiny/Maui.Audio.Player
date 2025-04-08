@@ -9,6 +9,7 @@ public partial class AudioPlayer : IAudioPlayer
     private bool _isDisposed;
     
     private readonly AVPlayer _player;
+    private readonly NSObject _playbackStoppedObserver;
 
     public double Progress => _player.CurrentTime.Seconds;
     public double Duration { get; }
@@ -21,6 +22,8 @@ public partial class AudioPlayer : IAudioPlayer
         
         var nsUrl = new NSUrl(url);
         _player = new AVPlayer(nsUrl);
+
+        _playbackStoppedObserver = _player.AddPeriodicTimeObserver(CMTime.FromSeconds(1, 1), null, CheckPlaybackStopped);
     }
     
     public void Play()
@@ -46,8 +49,18 @@ public partial class AudioPlayer : IAudioPlayer
         if (disposing)
         {
             _player.Dispose();
+            _player.RemoveTimeObserver(_playbackStoppedObserver);
         }
         
         _isDisposed = true;
+    }
+
+    private void CheckPlaybackStopped(CMTime time)
+    {
+        if (Progress >= Duration)
+        {
+            _player.RemoveTimeObserver(_playbackStoppedObserver);
+            PlaybackStopped?.Invoke(this, EventArgs.Empty);
+        }
     }
 }
