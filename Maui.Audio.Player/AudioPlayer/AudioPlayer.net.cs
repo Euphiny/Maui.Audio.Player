@@ -6,11 +6,11 @@ public partial class AudioPlayer : IAudioPlayer
     
     public void Play()
     {
-        throw new NotImplementedException();
+        
     }
 
     public void Pause()
     {
-        throw new NotImplementedException();
+        
     }
 }
