@@ -7,7 +7,7 @@ public partial class AudioPlayer
 {
     private bool _isDisposed;
     
-    private AVPlayer _player;
+    private readonly AVPlayer _player;
 
     public AudioPlayer(string url)
     {
