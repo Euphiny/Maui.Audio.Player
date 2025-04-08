@@ -3,11 +3,14 @@ using Foundation;
 
 namespace Maui.Audio.Player.AudioPlayer;
 
-public partial class AudioPlayer
+public partial class AudioPlayer : IAudioPlayer
 {
     private bool _isDisposed;
     
     private readonly AVPlayer _player;
+    
+    public double Progress { get; }
+    public double Duration { get; }
 
     public AudioPlayer(string url)
     {
