@@ -5,7 +5,7 @@ public partial class AudioPlayer : IAudioPlayer
     public double Progress { get; }
     public double Duration { get; }
     
-    public AudioPlayer(string url) {}
+    public AudioPlayer(string url, double duration) {}
     
     public void Play()
     {

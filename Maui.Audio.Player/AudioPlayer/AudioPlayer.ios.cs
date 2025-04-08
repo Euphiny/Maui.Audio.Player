@@ -12,7 +12,7 @@ public partial class AudioPlayer : IAudioPlayer
     public double Progress => _player.CurrentTime.Seconds;
     public double Duration => _player.CurrentItem?.Duration.Seconds ?? 0;
 
-    public AudioPlayer(string url)
+    public AudioPlayer(string url, double duration)
     {
         var nsUrl = new NSUrl(url);
         _player = new AVPlayer(nsUrl);
