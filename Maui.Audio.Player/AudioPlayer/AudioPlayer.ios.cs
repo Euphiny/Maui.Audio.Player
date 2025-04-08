@@ -12,6 +12,8 @@ public partial class AudioPlayer : IAudioPlayer
     public double Progress => _player.CurrentTime.Seconds;
     public double Duration { get; }
 
+    public bool IsPlaying => _player.TimeControlStatus == AVPlayerTimeControlStatus.Playing;
+
     public AudioPlayer(string url, double duration)
     {
         Duration = duration;
