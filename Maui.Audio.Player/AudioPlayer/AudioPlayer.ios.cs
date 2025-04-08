@@ -15,11 +15,11 @@ public partial class AudioPlayer
     
     public void Play()
     {
-        throw new NotImplementedException();
+        _player.Play();
     }
 
     public void Pause()
     {
-        throw new NotImplementedException();
+        _player.Pause();
     }
 }
