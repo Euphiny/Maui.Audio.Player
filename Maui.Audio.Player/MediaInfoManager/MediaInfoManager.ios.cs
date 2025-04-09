@@ -1,4 +1,6 @@
+using AVFoundation;
 using MediaPlayer;
+using UIKit;
 
 namespace Maui.Audio.Player.MediaInfoManager;
 
@@ -6,7 +8,12 @@ public partial class MediaInfoManager : IMediaInfoManager
 {
     public void Initialize()
     {
-        throw new NotImplementedException();
+        var audioSession = AVAudioSession.SharedInstance();
+        
+        audioSession.SetCategory(AVAudioSessionCategory.Playback);
+        audioSession.SetActive(true);
+            
+        UIApplication.SharedApplication.BeginReceivingRemoteControlEvents();
     }
 
     public void SetMediaInfo(MediaInfo mediaInfo)
