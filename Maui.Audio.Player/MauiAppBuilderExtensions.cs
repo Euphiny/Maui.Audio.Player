@@ -1,5 +1,6 @@
 #if IOS
     using AVFoundation;
+    using UIKit;
 #endif
 using Maui.Audio.Player.MediaInfoManager;
 
@@ -17,6 +18,8 @@ public static class MauiAppBuilderExtensions
         
             audioSession.SetCategory(AVAudioSessionCategory.Playback);
             audioSession.SetActive(true);
+            
+            UIApplication.SharedApplication.BeginReceivingRemoteControlEvents();
         #endif
         
         return builder;
