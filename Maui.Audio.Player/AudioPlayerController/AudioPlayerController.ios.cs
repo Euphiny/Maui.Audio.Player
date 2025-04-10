@@ -1,5 +1,6 @@
 using Maui.Audio.Player.AudioPlayer;
 using Maui.Audio.Player.MediaInfoManager;
+using MediaPlayer;
 
 namespace Maui.Audio.Player.AudioPlayerController;
 
@@ -15,6 +16,9 @@ public partial class AudioPlayerController : IAudioPlayerController
     public AudioPlayerController(IMediaInfoManager mediaInfoManager)
     {
         _mediaInfoManager = mediaInfoManager;
+
+        _mediaInfoManager.SetPauseCommand(Pause);
+        _mediaInfoManager.SetPlayCommand(Play);
     }
 
     public void Start(string url, MediaInfo mediaInfo)
