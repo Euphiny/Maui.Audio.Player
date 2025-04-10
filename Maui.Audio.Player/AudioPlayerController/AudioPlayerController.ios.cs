@@ -10,11 +10,13 @@ public partial class AudioPlayerController : IAudioPlayerController
     private IAudioPlayer? _player;
     private MediaInfo? _mediaInfo;
 
+    public PlayerInfo PlayerInfo { get; }
+    
     public AudioPlayerController(IMediaInfoManager mediaInfoManager)
     {
         _mediaInfoManager = mediaInfoManager;
     }
-    
+
     public void Start(string url, MediaInfo mediaInfo)
     {
         _player?.Dispose();

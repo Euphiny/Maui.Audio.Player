@@ -2,6 +2,8 @@ namespace Maui.Audio.Player.AudioPlayerController;
 
 public partial class AudioPlayerController : IAudioPlayerController
 {
+    public PlayerInfo PlayerInfo { get; }
+    
     public void Start(string url, MediaInfo mediaInfo)
     {
         throw new NotImplementedException();
