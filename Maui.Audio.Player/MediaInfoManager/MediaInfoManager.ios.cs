@@ -30,11 +30,28 @@ public partial class MediaInfoManager : IMediaInfoManager
 
     public void SetPauseCommand(Action action)
     {
-        throw new NotImplementedException();
+        MPRemoteCommandCenter.Shared.PauseCommand.AddTarget(HandleCommand(action));
     }
 
     public void SetPlayCommand(Action action)
     {
-        throw new NotImplementedException();
+        MPRemoteCommandCenter.Shared.PlayCommand.AddTarget(HandleCommand(action));
+    }
+
+    private Func<MPRemoteCommandEvent, MPRemoteCommandHandlerStatus> HandleCommand(Action action)
+    {
+        return _ =>
+        {
+            try
+            {
+                action();
+
+                return MPRemoteCommandHandlerStatus.Success;
+            }
+            catch
+            {
+                return MPRemoteCommandHandlerStatus.CommandFailed;
+            }
+        };
     }
 }
