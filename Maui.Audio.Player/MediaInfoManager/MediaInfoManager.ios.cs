@@ -40,12 +40,12 @@ public partial class MediaInfoManager : IMediaInfoManager
 
     public void SetNextCommand(Action action)
     {
-        throw new NotImplementedException();
+        MPRemoteCommandCenter.Shared.NextTrackCommand.AddTarget(HandleCommand(action));
     }
 
     public void SetPreviousCommand(Action action)
     {
-        throw new NotImplementedException();
+        MPRemoteCommandCenter.Shared.PreviousTrackCommand.AddTarget(HandleCommand(action));
     }
 
     private Func<MPRemoteCommandEvent, MPRemoteCommandHandlerStatus> HandleCommand(Action action)
