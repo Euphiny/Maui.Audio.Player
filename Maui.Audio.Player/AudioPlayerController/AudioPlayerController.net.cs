@@ -6,4 +6,14 @@ public partial class AudioPlayerController : IAudioPlayerController
     {
         throw new NotImplementedException();
     }
+
+    public void Play()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Pause()
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -20,4 +20,14 @@ public partial class AudioPlayerController : IAudioPlayerController
         
         _player.Play();
     }
+
+    public void Play()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Pause()
+    {
+        throw new NotImplementedException();
+    }
 }
