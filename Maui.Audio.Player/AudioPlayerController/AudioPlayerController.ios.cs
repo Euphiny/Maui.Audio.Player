@@ -23,6 +23,8 @@ public partial class AudioPlayerController : IAudioPlayerController
         
         _player = new AudioPlayer.AudioPlayer(url, mediaInfo.Duration);
         _mediaInfo = mediaInfo;
+        
+        Play();
     }
 
     public void Play()
