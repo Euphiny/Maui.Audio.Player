@@ -19,10 +19,12 @@ public partial class AudioPlayerController : IAudioPlayerController
 
     public void Start(string url, MediaInfo mediaInfo)
     {
-        _player?.Dispose();
+        Stop();
+        
+        _mediaInfo = mediaInfo;
         
         _player = new AudioPlayer.AudioPlayer(url, mediaInfo.Duration);
-        _mediaInfo = mediaInfo;
+        _player.PlaybackStopped += PlaybackEnded;
         
         Play();
     }
@@ -39,5 +41,19 @@ public partial class AudioPlayerController : IAudioPlayerController
     public void Pause()
     {
         _player?.Pause();
+    }
+
+    private void Stop()
+    {
+        if (_player == null)
+            return;
+        
+        _player.PlaybackStopped -= PlaybackEnded;
+        _player.Dispose();
+    }
+    
+    private void PlaybackEnded(object? sender, EventArgs eventArgs)
+    {
+        Stop();
     }
 }
