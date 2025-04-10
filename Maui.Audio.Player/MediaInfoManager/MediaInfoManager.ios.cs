@@ -27,4 +27,14 @@ public partial class MediaInfoManager : IMediaInfoManager
             PlaybackRate = 1.0f
         };
     }
+
+    public void SetPauseCommand(Action action)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SetPlayCommand(Action action)
+    {
+        throw new NotImplementedException();
+    }
 }
