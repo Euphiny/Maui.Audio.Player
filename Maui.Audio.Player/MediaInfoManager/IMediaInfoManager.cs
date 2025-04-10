@@ -8,4 +8,7 @@ public interface IMediaInfoManager
 
     public void SetPauseCommand(Action action);
     public void SetPlayCommand(Action action);
+    
+    public void SetNextCommand(Action action);
+    public void SetPreviousCommand(Action action);
 }

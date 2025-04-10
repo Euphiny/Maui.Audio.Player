@@ -38,6 +38,16 @@ public partial class MediaInfoManager : IMediaInfoManager
         MPRemoteCommandCenter.Shared.PlayCommand.AddTarget(HandleCommand(action));
     }
 
+    public void SetNextCommand(Action action)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SetPreviousCommand(Action action)
+    {
+        throw new NotImplementedException();
+    }
+
     private Func<MPRemoteCommandEvent, MPRemoteCommandHandlerStatus> HandleCommand(Action action)
     {
         return _ =>

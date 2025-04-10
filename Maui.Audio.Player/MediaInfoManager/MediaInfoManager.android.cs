@@ -21,4 +21,14 @@ public partial class MediaInfoManager : IMediaInfoManager
     {
         throw new NotImplementedException();
     }
+
+    public void SetNextCommand(Action action)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SetPreviousCommand(Action action)
+    {
+        throw new NotImplementedException();
+    }
 }
