@@ -6,7 +6,9 @@ namespace Maui.Audio.Player.AudioPlayerController;
 public partial class AudioPlayerController : IAudioPlayerController
 {
     private readonly IMediaInfoManager _mediaInfoManager;
+    
     private IAudioPlayer? _player;
+    private MediaInfo? _mediaInfo;
 
     public AudioPlayerController(IMediaInfoManager mediaInfoManager)
     {
@@ -16,18 +18,20 @@ public partial class AudioPlayerController : IAudioPlayerController
     public void Start(string url, MediaInfo mediaInfo)
     {
         _player = new AudioPlayer.AudioPlayer(url, mediaInfo.Duration);
-        _mediaInfoManager.SetMediaInfo(mediaInfo);
-        
-        _player.Play();
+        _mediaInfo = mediaInfo;
     }
 
     public void Play()
     {
-        throw new NotImplementedException();
+        if (_mediaInfo == null || _player == null)
+            throw new NullReferenceException();
+        
+        _mediaInfoManager.SetMediaInfo(_mediaInfo);
+        _player.Play();
     }
 
     public void Pause()
     {
-        throw new NotImplementedException();
+        _player?.Pause();
     }
 }
