@@ -10,7 +10,7 @@ public partial class AudioPlayerController : IAudioPlayerController
     private IAudioPlayer? _player;
     private MediaInfo? _mediaInfo;
 
-    public PlayerInfo PlayerInfo { get; }
+    public PlayerInfo PlayerInfo => new(_player?.Duration ?? 0, _player?.Progress ?? 0, _player?.IsPlaying ?? false);
     
     public AudioPlayerController(IMediaInfoManager mediaInfoManager)
     {
