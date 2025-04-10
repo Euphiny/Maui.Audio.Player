@@ -8,4 +8,6 @@ public partial class AudioPlayerController : IAudioPlayerController
     public void Play() { }
 
     public void Pause() { }
+    
+    public void Seek(double positionInSeconds) { }
 }

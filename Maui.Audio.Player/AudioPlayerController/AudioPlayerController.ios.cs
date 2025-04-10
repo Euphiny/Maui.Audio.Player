@@ -43,6 +43,11 @@ public partial class AudioPlayerController : IAudioPlayerController
         _player?.Pause();
     }
 
+    public void Seek(double positionInSeconds)
+    {
+        throw new NotImplementedException();
+    }
+
     private void Stop()
     {
         if (_player == null)

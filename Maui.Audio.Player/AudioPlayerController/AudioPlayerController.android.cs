@@ -18,4 +18,9 @@ public partial class AudioPlayerController : IAudioPlayerController
     {
         throw new NotImplementedException();
     }
+
+    public void Seek(double positionInSeconds)
+    {
+        throw new NotImplementedException();
+    }
 }
