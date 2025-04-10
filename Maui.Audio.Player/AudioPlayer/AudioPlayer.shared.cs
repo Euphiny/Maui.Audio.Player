@@ -2,7 +2,7 @@ namespace Maui.Audio.Player.AudioPlayer;
 
 public partial class AudioPlayer : IAudioPlayer
 {
-    public event EventHandler? PlaybackStopped;
+    public event EventHandler? PlaybackEnded;
     
     public void Dispose()
     {

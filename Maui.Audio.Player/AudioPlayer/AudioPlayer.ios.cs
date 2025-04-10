@@ -60,7 +60,7 @@ public partial class AudioPlayer : IAudioPlayer
         if (Progress >= Duration)
         {
             _player.RemoveTimeObserver(_playbackStoppedObserver);
-            PlaybackStopped?.Invoke(this, EventArgs.Empty);
+            PlaybackEnded?.Invoke(this, EventArgs.Empty);
         }
     }
 }
