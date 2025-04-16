@@ -2,16 +2,23 @@ namespace Maui.Audio.Player.AudioPlayerController;
 
 public partial class AudioPlayerController : IAudioPlayerController
 {
-    public PlayerInfo PlayerInfo { get; }
+    private AudioPlayer.AudioPlayer? _player;
+
+    public PlayerInfo PlayerInfo => new(_player?.Duration ?? 0, _player?.Progress ?? 0, _player?.IsPlaying ?? false);
     
     public void Start(string url, MediaInfo mediaInfo)
     {
-        throw new NotImplementedException();
+        _player = new AudioPlayer.AudioPlayer(url, mediaInfo.Duration);
+
+        Play();
     }
 
     public void Play()
     {
-        throw new NotImplementedException();
+        if (_player == null)
+            throw new NullReferenceException();
+        
+        _player.Play();
     }
 
     public void Pause()
