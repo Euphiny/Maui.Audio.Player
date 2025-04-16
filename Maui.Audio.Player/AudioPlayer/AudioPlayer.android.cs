@@ -1,16 +1,33 @@
+using Android.Media;
+using Application = Android.App.Application;
+using Uri = Android.Net.Uri;
+
 namespace Maui.Audio.Player.AudioPlayer;
 
 public partial class AudioPlayer : IAudioPlayer
 {
-    public double Progress { get; }
+    private readonly MediaPlayer _mediaPlayer;
+    
+    public double Progress => _mediaPlayer.CurrentPosition;
     public double Duration { get; }
-    public bool IsPlaying { get; }
+    public bool IsPlaying => _mediaPlayer.IsPlaying;
 
-    public AudioPlayer(string url, double duration) {}
+    public AudioPlayer(string url, double duration)
+    {
+        Duration = duration;
+        _mediaPlayer = new MediaPlayer();
+
+        var uri = Uri.Parse(url);
+        if (uri == null)
+            throw new ArgumentException("Invalid url");
+        
+        _mediaPlayer.SetDataSource(Application.Context, uri);
+        _mediaPlayer.Prepare();
+    }
     
     public void Play()
     {
-        throw new NotImplementedException();
+        _mediaPlayer.Start();
     }
 
     public void Pause()
