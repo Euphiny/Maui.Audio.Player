@@ -10,7 +10,7 @@ public partial class AudioPlayer : IAudioPlayer
     
     private bool _isDisposed;
     
-    public double Progress => _mediaPlayer.CurrentPosition;
+    public double Progress => _mediaPlayer.CurrentPosition / 1000d;
     public double Duration { get; }
     public bool IsPlaying => _mediaPlayer.IsPlaying;
 
