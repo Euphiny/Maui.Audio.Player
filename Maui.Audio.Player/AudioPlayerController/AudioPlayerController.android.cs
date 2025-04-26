@@ -8,6 +8,8 @@ public partial class AudioPlayerController : IAudioPlayerController
     
     public void Start(string url, MediaInfo mediaInfo)
     {
+        Stop();
+        
         _player = new AudioPlayer.AudioPlayer(url, mediaInfo.Duration);
 
         Play();
@@ -32,5 +34,11 @@ public partial class AudioPlayerController : IAudioPlayerController
     public void Seek(double positionInSeconds)
     {
         throw new NotImplementedException();
+    }
+
+    private void Stop()
+    {
+        _player?.Dispose();
+        _player = null;
     }
 }

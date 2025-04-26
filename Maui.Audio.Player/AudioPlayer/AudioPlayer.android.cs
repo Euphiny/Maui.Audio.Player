@@ -8,6 +8,8 @@ public partial class AudioPlayer : IAudioPlayer
 {
     private readonly MediaPlayer _mediaPlayer;
     
+    private bool _isDisposed;
+    
     public double Progress => _mediaPlayer.CurrentPosition;
     public double Duration { get; }
     public bool IsPlaying => _mediaPlayer.IsPlaying;
@@ -45,5 +47,17 @@ public partial class AudioPlayer : IAudioPlayer
         throw new NotImplementedException();
     }
 
-    public void Dispose(bool disposing) {}
+    public void Dispose(bool disposing)
+    {
+        if (_isDisposed)
+            return;
+
+        if (disposing)
+        {
+            _mediaPlayer.Stop();
+            _mediaPlayer.Dispose();
+        }
+        
+        _isDisposed = true;
+    }
 }
