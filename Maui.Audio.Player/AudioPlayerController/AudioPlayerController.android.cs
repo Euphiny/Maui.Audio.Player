@@ -23,7 +23,10 @@ public partial class AudioPlayerController : IAudioPlayerController
 
     public void Pause()
     {
-        throw new NotImplementedException();
+        if (_player == null)
+            throw new NullReferenceException();
+        
+        _player.Pause();
     }
 
     public void Seek(double positionInSeconds)

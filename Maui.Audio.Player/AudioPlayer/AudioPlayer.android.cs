@@ -32,7 +32,7 @@ public partial class AudioPlayer : IAudioPlayer
 
     public void Pause()
     {
-        throw new NotImplementedException();
+        _mediaPlayer.Pause();
     }
 
     public void Seek(double position)
