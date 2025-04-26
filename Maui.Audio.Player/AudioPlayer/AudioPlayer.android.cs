@@ -39,7 +39,7 @@ public partial class AudioPlayer : IAudioPlayer
 
     public void Seek(double position)
     {
-        throw new NotImplementedException();
+        _mediaPlayer.SeekTo((int)position * 1000);
     }
 
     public async Task SeekAsync(double position)

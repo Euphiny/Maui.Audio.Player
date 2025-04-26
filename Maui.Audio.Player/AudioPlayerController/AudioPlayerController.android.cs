@@ -33,7 +33,7 @@ public partial class AudioPlayerController : IAudioPlayerController
 
     public void Seek(double positionInSeconds)
     {
-        throw new NotImplementedException();
+        _player?.Seek(positionInSeconds);
     }
 
     private void Stop()
