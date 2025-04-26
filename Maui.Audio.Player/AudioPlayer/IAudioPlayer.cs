@@ -13,4 +13,6 @@ public interface IAudioPlayer : IDisposable
     public void Pause();
     
     public void Seek(double position);
+    
+    public Task SeekAsync(double position);
 }

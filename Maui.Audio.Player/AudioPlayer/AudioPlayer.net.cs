@@ -11,6 +11,8 @@ public partial class AudioPlayer : IAudioPlayer
     public void Play() {}
     public void Pause() { }
     public void Seek(double position) { }
+    
+    public Task SeekAsync(double position) => Task.CompletedTask;
 
     public void Dispose(bool disposing) {}
 }

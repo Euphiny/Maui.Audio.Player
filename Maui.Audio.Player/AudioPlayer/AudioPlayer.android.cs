@@ -40,5 +40,10 @@ public partial class AudioPlayer : IAudioPlayer
         throw new NotImplementedException();
     }
 
+    public async Task SeekAsync(double position)
+    {
+        throw new NotImplementedException();
+    }
+
     public void Dispose(bool disposing) {}
 }
