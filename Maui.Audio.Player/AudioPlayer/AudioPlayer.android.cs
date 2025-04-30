@@ -42,11 +42,6 @@ public partial class AudioPlayer : IAudioPlayer
         _mediaPlayer.SeekTo((int)position * 1000);
     }
 
-    public async Task SeekAsync(double position)
-    {
-        throw new NotImplementedException();
-    }
-
     public void Dispose(bool disposing)
     {
         if (_isDisposed)

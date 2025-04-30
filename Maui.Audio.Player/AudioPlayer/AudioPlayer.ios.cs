@@ -41,11 +41,6 @@ public partial class AudioPlayer : IAudioPlayer
         _player.Seek(CMTime.FromSeconds(position, 1));
     }
 
-    public Task SeekAsync(double position)
-    {
-        return _player.SeekAsync(CMTime.FromSeconds(position, 1));
-    }
-
     public void Dispose(bool disposing)
     {
         if (_isDisposed)
