@@ -11,6 +11,7 @@ public partial class AudioPlayerController : IAudioPlayerController
         Stop();
         
         _player = new AudioPlayer.AudioPlayer(url, mediaInfo.Duration);
+        _player.PlaybackEnded += PlayerOnPlaybackEnded;
 
         Play();
     }
@@ -38,7 +39,15 @@ public partial class AudioPlayerController : IAudioPlayerController
 
     private void Stop()
     {
+        if (_player != null)
+            _player.PlaybackEnded -= PlayerOnPlaybackEnded;
+        
         _player?.Dispose();
         _player = null;
+    }
+    
+    private void PlayerOnPlaybackEnded(object? sender, EventArgs e)
+    {
+        PlaybackEnded?.Invoke(this, EventArgs.Empty);
     }
 }

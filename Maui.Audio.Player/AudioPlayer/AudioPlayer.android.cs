@@ -22,11 +22,13 @@ public partial class AudioPlayer : IAudioPlayer
         var uri = Uri.Parse(url);
         if (uri == null)
             throw new ArgumentException("Invalid url");
+
+        _mediaPlayer.Completion += MediaPlayerOnCompletion;
         
         _mediaPlayer.SetDataSource(Application.Context, uri);
         _mediaPlayer.Prepare();
     }
-    
+
     public void Play()
     {
         _mediaPlayer.Start();
@@ -49,10 +51,17 @@ public partial class AudioPlayer : IAudioPlayer
 
         if (disposing)
         {
+            _mediaPlayer.Completion -= MediaPlayerOnCompletion;
+            
             _mediaPlayer.Stop();
             _mediaPlayer.Dispose();
         }
         
         _isDisposed = true;
+    }
+    
+    private void MediaPlayerOnCompletion(object? sender, EventArgs e)
+    {
+        PlaybackEnded?.Invoke(this, EventArgs.Empty);
     }
 }
