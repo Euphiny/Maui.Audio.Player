@@ -57,7 +57,7 @@ public partial class AudioPlayer : IAudioPlayer
 
     private void CheckPlaybackStopped(CMTime time)
     {
-        if (Progress >= Duration)
+        if (Math.Floor(Progress) >= Math.Floor(Duration))
         {
             _player.RemoveTimeObserver(_playbackStoppedObserver);
             PlaybackEnded?.Invoke(this, EventArgs.Empty);
