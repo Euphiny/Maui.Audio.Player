@@ -1,7 +1,22 @@
+using Android.Media.Session;
+using Application = Android.App.Application;
+
 namespace Maui.Audio.Player.MediaInfoManager;
 
 public partial class MediaInfoManager : IMediaInfoManager
 {
+    private const string SessionTag = "Maui.Audio.Player.MediaInfoManager";
+    
+    private MediaSession _mediaSession;
+    
+    public MediaInfoManager()
+    {
+        _mediaSession = new MediaSession(Application.Context, SessionTag);
+        
+        _mediaSession.SetCallback(new MediaSessionCallback());
+        _mediaSession.SetFlags(MediaSessionFlags.HandlesMediaButtons | MediaSessionFlags.HandlesTransportControls);
+    }
+    
     public void Initialize()
     {
         
@@ -32,3 +47,5 @@ public partial class MediaInfoManager : IMediaInfoManager
         
     }
 }
+
+public class MediaSessionCallback : MediaSession.Callback;
