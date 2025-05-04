@@ -31,3 +31,31 @@ public static MauiApp CreateMauiApp()
     return builder.Build();
 }
 ```
+
+It is than possible to take `IAudioPlayerController` as constructor argument and use it to start playing audio:
+
+```c#
+public void PlayAudio() 
+{
+    var url = "https://song-url.com"
+    var durationInSeconds = 178.2;
+    var artists = new List<string>() 
+    {
+        "Artist 1",
+        "Artist 2"
+    }
+    
+    var mediaInfo = new MediaInfo("Name of the song", string.Join(", ", artists), durationInSeconds);
+        
+    _audioPlayerController.Start(url, mediaInfo);
+}
+```
+
+The `AudioPlayerController` exposes other methods besides the `Start` method:
+- `Play()`, to tell the player to start playing audio, is called internally when starting the player.
+- `Pause()`, to pause the player
+- `Seek()`, to move the current position of the player backwards or forwards.
+
+Furthermore, the `PlayerInfo` property holds the current state of the player, information such as duration, progress and whether the player is playing any audio can be found here.
+
+When the player is done playing the audio stream, the `PlaybackEnded` event is fired.
