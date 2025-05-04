@@ -28,6 +28,11 @@ public partial class MediaInfoManager : IMediaInfoManager
         };
     }
 
+    public void SetPlayerInfo(PlayerInfo playerInfo)
+    {
+        throw new NotImplementedException();
+    }
+
     public void SetPauseCommand(Action action)
     {
         MPRemoteCommandCenter.Shared.PauseCommand.AddTarget(HandleCommand(action));

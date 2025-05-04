@@ -41,6 +41,11 @@ public partial class MediaInfoManager : IMediaInfoManager
         _mediaSession.Active = true;
     }
 
+    public void SetPlayerInfo(PlayerInfo playerInfo)
+    {
+        throw new NotImplementedException();
+    }
+
     public void SetPauseCommand(Action action)
     {
         
