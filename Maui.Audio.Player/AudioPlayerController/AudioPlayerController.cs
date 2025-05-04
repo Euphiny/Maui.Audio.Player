@@ -40,7 +40,9 @@ public class AudioPlayerController : IAudioPlayerController
             throw new NullReferenceException();
         
         _player.Play();
+        
         _mediaInfoManager.SetMediaInfo(_mediaInfo);
+        _mediaInfoManager.SetPlayerInfo(PlayerInfo);
     }
 
     public void Pause()
@@ -54,6 +56,7 @@ public class AudioPlayerController : IAudioPlayerController
     public void Seek(double positionInSeconds)
     {
         _player?.Seek(positionInSeconds);
+        _mediaInfoManager.SetPlayerInfo(PlayerInfo);
     }
     
     private void Stop()
