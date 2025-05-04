@@ -30,7 +30,7 @@ public partial class MediaInfoManager : IMediaInfoManager
 
     public void SetPlayerInfo(PlayerInfo playerInfo)
     {
-        throw new NotImplementedException();
+        MPNowPlayingInfoCenter.DefaultCenter.NowPlaying.ElapsedPlaybackTime = (float)playerInfo.Progress;
     }
 
     public void SetPauseCommand(Action action)
