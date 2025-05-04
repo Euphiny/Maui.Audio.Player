@@ -4,11 +4,6 @@ namespace Maui.Audio.Player.AudioPlayerController;
 
 public partial class AudioPlayerController : IAudioPlayerController
 {
-    private readonly IMediaInfoManager _mediaInfoManager;
-    
-    private AudioPlayer.AudioPlayer? _player;
-    private MediaInfo? _mediaInfo;
-    
     public PlayerInfo PlayerInfo => new(_player?.Duration ?? 0, _player?.Progress ?? 0, _player?.IsPlaying ?? false);
 
     public AudioPlayerController(IMediaInfoManager mediaInfoManager)
@@ -26,28 +21,6 @@ public partial class AudioPlayerController : IAudioPlayerController
         _player.PlaybackEnded += PlayerOnPlaybackEnded;
 
         Play();
-    }
-
-    public void Play()
-    {
-        if (_player == null || _mediaInfo == null)
-            throw new NullReferenceException();
-        
-        _player.Play();
-        _mediaInfoManager.SetMediaInfo(_mediaInfo);
-    }
-
-    public void Pause()
-    {
-        if (_player == null)
-            throw new NullReferenceException();
-        
-        _player.Pause();
-    }
-
-    public void Seek(double positionInSeconds)
-    {
-        _player?.Seek(positionInSeconds);
     }
 
     private void Stop()

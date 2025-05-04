@@ -1,16 +1,9 @@
-using Maui.Audio.Player.AudioPlayer;
 using Maui.Audio.Player.MediaInfoManager;
-using MediaPlayer;
 
 namespace Maui.Audio.Player.AudioPlayerController;
 
 public partial class AudioPlayerController : IAudioPlayerController
 {
-    private readonly IMediaInfoManager _mediaInfoManager;
-    
-    private IAudioPlayer? _player;
-    private MediaInfo? _mediaInfo;
-
     public PlayerInfo PlayerInfo => new(_player?.Duration ?? 0, _player?.Progress ?? 0, _player?.IsPlaying ?? false);
     
     public AudioPlayerController(IMediaInfoManager mediaInfoManager)
@@ -31,25 +24,6 @@ public partial class AudioPlayerController : IAudioPlayerController
         _player.PlaybackEnded += PlayerPlaybackEnded;
         
         Play();
-    }
-
-    public void Play()
-    {
-        if (_mediaInfo == null || _player == null)
-            throw new NullReferenceException();
-        
-        _mediaInfoManager.SetMediaInfo(_mediaInfo);
-        _player.Play();
-    }
-
-    public void Pause()
-    {
-        _player?.Pause();
-    }
-
-    public void Seek(double positionInSeconds)
-    {
-        _player?.Seek(positionInSeconds);
     }
 
     private void Stop()
