@@ -10,11 +10,11 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 
-        <PackageId>Mobile.Audio.Player</PackageId>
+        <PackageId>Euphiny.Maui.Audio.Player</PackageId>
         <Version>1.0.0</Version>
         <Authors>joh-an-ng</Authors>
         <Company>Euphiny</Company>
-        <Title>Mobile.Audio.Player</Title>
+        <Title>Euphiny.Maui.Audio.Player</Title>
         <Description>A package used to play audio and integrate with media sessions in your MAUI app.</Description>
         <PackageTags>MAUI;Audio Player;MediaSessions;NowPlayingInfoCenter</PackageTags>
         <PackageReadmeFile>README.md</PackageReadmeFile>
