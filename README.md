@@ -10,6 +10,11 @@ A package which allows you to play audio in your MAUI application. Either use it
 - Integrate with `NowPlayingInfoCenter` or `MediaSession`.
 - Separated concerns, pick and choose what you need.
 
+## Installation
+`Maui.Audio.Player` can be found on [NuGet](https://www.nuget.org/packages/Euphiny.Maui.Audio.Player/). Install it by using `dotnet add package Euphiny.Maui.Audio.Player`. 
+
+[![NuGet](https://img.shields.io/nuget/v/Euphiny.Maui.Audio.Player.svg?label=NuGet)](https://www.nuget.org/packages/Euphiny.Maui.Audio.Player/)
+
 ## Usage
 This package provides 3 services, these are:
 1. `AudioPlayer`, used to actually play audio using the native implementation.
