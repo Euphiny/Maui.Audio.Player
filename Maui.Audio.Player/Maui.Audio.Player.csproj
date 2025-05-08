@@ -51,4 +51,7 @@
         <Compile Remove="**\*.net.cs" />
         <None Include="**\*.net.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
     </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
+      <PackageReference Include="Xamarin.AndroidX.Media" Version="1.7.0.10" />
+    </ItemGroup>
 </Project>
