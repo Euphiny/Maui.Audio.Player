@@ -1,24 +1,30 @@
-﻿namespace Maui.Audio.Player.Sample;
+﻿using Maui.Audio.Player.AudioPlayerController;
+using Microsoft.Extensions.Configuration;
+
+namespace Maui.Audio.Player.Sample;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
-
-	public MainPage()
+	private readonly IAudioPlayerController _audioPlayerController;
+	private readonly IConfiguration _configuration;
+	
+	public MainPage(IAudioPlayerController audioPlayerController, IConfiguration configuration)
 	{
+		_audioPlayerController = audioPlayerController;
+		_configuration = configuration;
+		
 		InitializeComponent();
 	}
 
 	private void OnCounterClicked(object sender, EventArgs e)
 	{
-		count++;
+		var url = _configuration.GetValue<string>("AudioUrl");
+		var mediaInfo = new MediaInfo("Name of song", "Artist name", 100);
 
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
-
-		SemanticScreenReader.Announce(CounterBtn.Text);
+		if (string.IsNullOrEmpty(url))
+			throw new NullReferenceException("Make sure to set AudioUrl in your appsettings.json file.");
+		
+		_audioPlayerController.Start(url, mediaInfo);
 	}
 }
 
