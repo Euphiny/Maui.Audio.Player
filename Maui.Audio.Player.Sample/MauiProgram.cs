@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Reflection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Maui.Audio.Player.Sample;
 
@@ -9,6 +11,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.AddJsonConfiguration()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -20,5 +23,19 @@ public static class MauiProgram
 #endif
 
 		return builder.Build();
+	}
+
+	public static MauiAppBuilder AddJsonConfiguration(this MauiAppBuilder builder)
+	{
+		var assembly = Assembly.GetExecutingAssembly();
+		using var stream = assembly.GetManifestResourceStream("Maui.Audio.Player.Sample.appsettings.json");
+
+		var config = new ConfigurationBuilder()
+			.AddJsonStream(stream)
+			.Build();
+		
+		builder.Configuration.AddConfiguration(config);
+
+		return builder;
 	}
 }

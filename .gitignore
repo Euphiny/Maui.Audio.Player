@@ -5,3 +5,5 @@ obj
 *.sln.DotSettings.user
 
 .DS_Store
+
+appsettings.json
