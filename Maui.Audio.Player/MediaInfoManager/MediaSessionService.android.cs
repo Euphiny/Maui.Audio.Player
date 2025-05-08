@@ -9,6 +9,7 @@ using AndroidX.Media;
 namespace Maui.Audio.Player.MediaInfoManager;
 
 [Service(ForegroundServiceType = ForegroundService.TypeMediaPlayback, Exported = true, Enabled = true)]
+[IntentFilter([Android.Service.Media.MediaBrowserService.ServiceInterface])]
 public class MediaSessionService : MediaBrowserServiceCompat
 {
     private const string SessionTag = "Maui.Audio.Player.MediaInfoManager";
@@ -32,8 +33,7 @@ public class MediaSessionService : MediaBrowserServiceCompat
         _mediaSession = new MediaSessionCompat(Android.App.Application.Context, SessionTag);
         
         _mediaSession.SetCallback(new MediaSessionCompatCallback());
-        _mediaSession.SetFlags(MediaSessionCompat.FlagHandlesMediaButtons |
-                               MediaSessionCompat.FlagHandlesTransportControls);
+        _mediaSession.SetFlags(MediaSessionCompat.FlagHandlesMediaButtons | MediaSessionCompat.FlagHandlesTransportControls);
 
         SessionToken = _mediaSession.SessionToken;
     }
