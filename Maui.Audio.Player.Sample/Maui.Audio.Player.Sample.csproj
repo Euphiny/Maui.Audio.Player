@@ -52,4 +52,8 @@
       <EmbeddedResource Include="appsettings.json" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Maui.Audio.Player\Maui.Audio.Player.csproj" />
+    </ItemGroup>
+
 </Project>
