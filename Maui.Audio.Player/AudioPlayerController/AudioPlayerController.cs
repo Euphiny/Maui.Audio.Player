@@ -18,6 +18,8 @@ public class AudioPlayerController : IAudioPlayerController
     {
         _mediaInfoManager = mediaInfoManager;
 
+        _mediaInfoManager.Initialize();
+        
         _mediaInfoManager.SetPauseCommand(Pause);
         _mediaInfoManager.SetPlayCommand(Play);
     }
