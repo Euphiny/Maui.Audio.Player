@@ -1,3 +1,4 @@
+using Android.Content;
 using Android.Media;
 using Android.Media.Session;
 using Application = Android.App.Application;
@@ -20,7 +21,7 @@ public partial class MediaInfoManager : IMediaInfoManager
     
     public void Initialize()
     {
-        
+        Application.Context.StartForegroundService(new Intent(Application.Context, typeof(MediaSessionService)));
     }
 
     public void SetMediaInfo(MediaInfo mediaInfo)
