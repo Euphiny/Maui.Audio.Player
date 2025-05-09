@@ -1,45 +1,59 @@
 using Android.Content;
-using Android.Media;
 using Android.Media.Session;
-using Application = Android.App.Application;
+using Android.Support.V4.Media;
+using Android.Support.V4.Media.Session;
+using MediaSession = Android.Media.Session.MediaSession;
 
 namespace Maui.Audio.Player.MediaInfoManager;
 
 public partial class MediaInfoManager : IMediaInfoManager
 {
     private const string SessionTag = "Maui.Audio.Player.MediaInfoManager";
+
+    private static bool _serviceIsInitialized = false;
     
-    private readonly MediaSession _mediaSession;
+    private static MediaSessionCompat? _mediaSession;
+    
+    public static MediaSessionCompat? MediaSession => _mediaSession;
     
     public MediaInfoManager()
     {
-        _mediaSession = new MediaSession(Application.Context, SessionTag);
+        _mediaSession = new MediaSessionCompat(Android.App.Application.Context, SessionTag);
         
         _mediaSession.SetCallback(new MediaSessionCallback());
-        _mediaSession.SetFlags(MediaSessionFlags.HandlesMediaButtons | MediaSessionFlags.HandlesTransportControls);
+        _mediaSession.SetFlags(MediaSessionCompat.FlagHandlesMediaButtons | MediaSessionCompat.FlagHandlesTransportControls);
     }
     
     public void Initialize()
     {
-        Application.Context.StartForegroundService(new Intent(Application.Context, typeof(MediaSessionService)));
+        
     }
 
     public void SetMediaInfo(MediaInfo mediaInfo)
     {
-        var metadata = new MediaMetadata.Builder()
-            .PutString(MediaMetadata.MetadataKeyTitle, mediaInfo.Title)
-            ?.PutString(MediaMetadata.MetadataKeyArtist, mediaInfo.Artist)
+        var metadata = new MediaMetadataCompat.Builder()
+            .PutString(MediaMetadataCompat.MetadataKeyTitle, mediaInfo.Title)
+            ?.PutString(MediaMetadataCompat.MetadataKeyArtist, mediaInfo.Artist)
             ?.Build();
         
-        var playbackState = new PlaybackState.Builder()
-            .SetActions(PlaybackState.ActionPlay)
-            ?.SetState(PlaybackStateCode.Playing, PlaybackState.PlaybackPositionUnknown, 1)
-            ?.Build();
+        var stateBuilder = new PlaybackStateCompat.Builder()
+            .SetActions(
+                PlaybackStateCompat.ActionPlay |
+                PlaybackStateCompat.ActionPlayPause);
+
+        if (_mediaSession == null)
+            return;
         
+        if (!_serviceIsInitialized)
+            Android.App.Application.Context.StartForegroundService(new Intent(Android.App.Application.Context, typeof(MediaSessionService)));
+
+        _serviceIsInitialized = true;
         _mediaSession.SetMetadata(metadata);
-        _mediaSession.SetPlaybackState(playbackState);
+        _mediaSession.SetPlaybackState(stateBuilder.Build());
         
         _mediaSession.Active = true;
+        
+        _mediaSession.Controller.GetTransportControls().Play();
     }
 
     public void SetPlayerInfo(PlayerInfo playerInfo)
@@ -68,4 +82,12 @@ public partial class MediaInfoManager : IMediaInfoManager
     }
 }
 
-public class MediaSessionCallback : MediaSession.Callback;
+public class MediaSessionCallback : MediaSessionCompat.Callback
+{
+    public override void OnPlay()
+    {
+        base.OnPlay();
+
+        var t = " ";
+    }
+}

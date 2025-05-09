@@ -29,14 +29,8 @@ public class MediaSessionService : MediaBrowserServiceCompat
     public override void OnCreate()
     {
         base.OnCreate();
-        
-        _mediaSession = new MediaSessionCompat(Android.App.Application.Context, SessionTag);
-        
-        _mediaSession.SetCallback(new MediaSessionCompatCallback());
-        _mediaSession.SetFlags(MediaSessionCompat.FlagHandlesMediaButtons | MediaSessionCompat.FlagHandlesTransportControls);
 
-        SessionToken = _mediaSession.SessionToken;
+        _mediaSession = MediaInfoManager.MediaSession;
+        SessionToken = _mediaSession?.SessionToken;
     }
 }
-
-public class MediaSessionCompatCallback : MediaSessionCompat.Callback;
