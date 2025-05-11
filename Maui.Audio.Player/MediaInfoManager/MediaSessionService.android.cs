@@ -15,6 +15,7 @@ namespace Maui.Audio.Player.MediaInfoManager;
 public class MediaSessionService : MediaBrowserServiceCompat
 {
     private const string SessionTag = "Maui.Audio.Player.MediaInfoManager";
+    private const string ChannelId = "audio_player_channel";
     
     private MediaSessionCompat? _mediaSession;
     
@@ -35,6 +36,8 @@ public class MediaSessionService : MediaBrowserServiceCompat
         _mediaSession = MediaInfoManager.MediaSession;
         SessionToken = _mediaSession?.SessionToken;
         
+        CreateNotificationChannel();
+        
         NotificationCompat.Builder builder = new NotificationCompat.Builder(Platform.AppContext,"audio_player_channel")
             .SetContentIntent(_mediaSession.Controller.SessionActivity)
             .SetContentTitle("Title of song")
@@ -49,5 +52,19 @@ public class MediaSessionService : MediaBrowserServiceCompat
         var notification = builder.Build();
         var compatManager = NotificationManagerCompat.From(Platform.AppContext);
         compatManager.Notify(1, notification);
+    }
+    
+    private static void CreateNotificationChannel()
+    {
+        if (!OperatingSystem.IsAndroidVersionAtLeast(26))
+            return;
+        
+        var channel = new NotificationChannel(ChannelId, "Audio Player", NotificationImportance.Default)
+        {
+            Description = "Play music"
+        };
+        
+        var manager = Platform.AppContext.GetSystemService(NotificationService) as NotificationManager;
+        manager?.CreateNotificationChannel(channel);
     }
 }

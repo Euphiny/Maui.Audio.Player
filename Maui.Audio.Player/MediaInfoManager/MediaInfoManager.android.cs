@@ -14,11 +14,9 @@ namespace Maui.Audio.Player.MediaInfoManager;
 
 public partial class MediaInfoManager : IMediaInfoManager
 {
-    private const string ChannelId = "audio_player_channel";
     private const string SessionTag = "Maui.Audio.Player.MediaInfoManager";
 
-    private static bool _serviceIsInitialized = false;
-    private static bool _channelInitialized = false;
+    private static bool _serviceIsInitialized;
     private static int _pendingIntentId = 0;
     
     private static MediaSessionCompat? _mediaSession;
@@ -52,8 +50,6 @@ public partial class MediaInfoManager : IMediaInfoManager
 
         if (_mediaSession == null)
             return;
-        
-        CreateNotificationChannel();
         
         _mediaSession.SetMetadata(metadata);
         _mediaSession.SetPlaybackState(stateBuilder.Build());
@@ -89,22 +85,6 @@ public partial class MediaInfoManager : IMediaInfoManager
     public void SetPreviousCommand(Action action)
     {
         
-    }
-
-    private void CreateNotificationChannel()
-    {
-        if (Build.VERSION.SdkInt < BuildVersionCodes.O)
-            return;
-        
-        var channelNameJava = new Java.Lang.String("Audio Player");
-        var channel = new NotificationChannel(ChannelId, channelNameJava, NotificationImportance.Default)
-        {
-            Description = "Play music"
-        };
-        
-        NotificationManager manager = (NotificationManager)Platform.AppContext.GetSystemService(Context.NotificationService);
-        manager.CreateNotificationChannel(channel);
-        _channelInitialized = true;
     }
 }
 
