@@ -20,7 +20,6 @@ public partial class MediaInfoManager : IMediaInfoManager
     private static bool _serviceIsInitialized = false;
     private static bool _channelInitialized = false;
     private static int _pendingIntentId = 0;
-    private static int _messageId = 0;
     
     private static MediaSessionCompat? _mediaSession;
     
@@ -54,38 +53,18 @@ public partial class MediaInfoManager : IMediaInfoManager
         if (_mediaSession == null)
             return;
         
-        // if (!_serviceIsInitialized)
-        //     Android.App.Application.Context.StartForegroundService(new Intent(Android.App.Application.Context, typeof(MediaSessionService)));
-
-        _serviceIsInitialized = true;
+        CreateNotificationChannel();
+        
         _mediaSession.SetMetadata(metadata);
         _mediaSession.SetPlaybackState(stateBuilder.Build());
         
         _mediaSession.Active = true;
         
+        if (!_serviceIsInitialized)
+            Android.App.Application.Context.StartForegroundService(new Intent(Android.App.Application.Context, typeof(MediaSessionService)));
+
+        _serviceIsInitialized = true;
         _mediaSession.Controller.GetTransportControls().Play();
-        CreateNotificationChannel();
-        
-        Intent intent = new Intent(Platform.AppContext, Platform.CurrentActivity.GetType());
-        intent.PutExtra("title", "Title of song");
-        intent.PutExtra("message", "Message");
-        intent.SetFlags(ActivityFlags.SingleTop | ActivityFlags.ClearTop);
-
-        var pendingIntentFlags = (Build.VERSION.SdkInt >= BuildVersionCodes.S)
-            ? PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable
-            : PendingIntentFlags.UpdateCurrent;
-
-        PendingIntent pendingIntent = PendingIntent.GetActivity(Platform.AppContext, _pendingIntentId++, intent, pendingIntentFlags);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(Platform.AppContext, ChannelId)
-            .SetContentIntent(pendingIntent)
-            .SetContentTitle("Title of song")
-            .SetContentText("Message")
-            .SetLargeIcon(BitmapFactory.DecodeResource(Platform.AppContext.Resources, Resource.Drawable.abc_ic_go_search_api_material))
-            .SetSmallIcon(Resource.Drawable.abc_ic_go_search_api_material);
-
-        var notification = builder.Build();
-        var compatManager = NotificationManagerCompat.From(Platform.AppContext);
-        compatManager.Notify(_messageId++, notification);
     }
 
     public void SetPlayerInfo(PlayerInfo playerInfo)
