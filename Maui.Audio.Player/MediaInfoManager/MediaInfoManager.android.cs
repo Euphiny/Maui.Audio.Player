@@ -64,7 +64,6 @@ public partial class MediaInfoManager : IMediaInfoManager
             Android.App.Application.Context.StartForegroundService(new Intent(Android.App.Application.Context, typeof(MediaSessionService)));
 
         _serviceIsInitialized = true;
-        _mediaSession.Controller.GetTransportControls().Play();
     }
 
     public void SetPlayerInfo(PlayerInfo playerInfo)
@@ -109,12 +108,4 @@ public partial class MediaInfoManager : IMediaInfoManager
     }
 }
 
-public class MediaSessionCallback : MediaSessionCompat.Callback
-{
-    public override void OnPlay()
-    {
-        base.OnPlay();
-
-        var t = " ";
-    }
-}
+public class MediaSessionCallback : MediaSessionCompat.Callback;
