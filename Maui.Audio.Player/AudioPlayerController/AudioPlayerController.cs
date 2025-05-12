@@ -53,6 +53,7 @@ public class AudioPlayerController : IAudioPlayerController
             throw new NullReferenceException();
         
         _player.Pause();
+        _mediaInfoManager.SetPlayerInfo(PlayerInfo);
     }
 
     public void Seek(double positionInSeconds)

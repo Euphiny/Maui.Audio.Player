@@ -19,6 +19,8 @@ public partial class MediaInfoManager : IMediaInfoManager
     private static bool _serviceIsInitialized;
     private static int _pendingIntentId = 0;
     
+    private readonly MediaSessionCallback _mediaSessionCallback = new();
+    
     private static MediaSessionCompat? _mediaSession;
     
     public static MediaSessionCompat? MediaSession => _mediaSession;
@@ -27,7 +29,7 @@ public partial class MediaInfoManager : IMediaInfoManager
     {
         _mediaSession = new MediaSessionCompat(Android.App.Application.Context, SessionTag);
         
-        _mediaSession.SetCallback(new MediaSessionCallback());
+        _mediaSession.SetCallback(_mediaSessionCallback);
         _mediaSession.SetFlags(MediaSessionCompat.FlagHandlesMediaButtons | MediaSessionCompat.FlagHandlesTransportControls);
     }
     
@@ -42,18 +44,11 @@ public partial class MediaInfoManager : IMediaInfoManager
             .PutString(MediaMetadataCompat.MetadataKeyTitle, mediaInfo.Title)
             ?.PutString(MediaMetadataCompat.MetadataKeyArtist, mediaInfo.Artist)
             ?.Build();
-        
-        var stateBuilder = new PlaybackStateCompat.Builder()
-            .SetActions(
-                PlaybackStateCompat.ActionPlay |
-                PlaybackStateCompat.ActionPlayPause);
 
         if (_mediaSession == null)
             return;
         
         _mediaSession.SetMetadata(metadata);
-        _mediaSession.SetPlaybackState(stateBuilder.Build());
-        
         _mediaSession.Active = true;
         
         if (!_serviceIsInitialized)
@@ -64,17 +59,26 @@ public partial class MediaInfoManager : IMediaInfoManager
 
     public void SetPlayerInfo(PlayerInfo playerInfo)
     {
+        var playState = playerInfo.IsPlaying ? PlaybackStateCompat.StatePlaying : PlaybackStateCompat.StatePaused;
         
+        var state = new PlaybackStateCompat.Builder()
+            .SetActions(
+                PlaybackStateCompat.ActionPlay |
+                PlaybackStateCompat.ActionPlayPause)
+            ?.SetState(playState, 0, 1f)
+            ?.Build();
+        
+        _mediaSession?.SetPlaybackState(state);
     }
 
     public void SetPauseCommand(Action action)
     {
-        
+        _mediaSessionCallback.OnPauseCommand = action;
     }
 
     public void SetPlayCommand(Action action)
     {
-        
+        _mediaSessionCallback.OnPlayCommand = action;
     }
 
     public void SetNextCommand(Action action)
@@ -88,4 +92,20 @@ public partial class MediaInfoManager : IMediaInfoManager
     }
 }
 
-public class MediaSessionCallback : MediaSessionCompat.Callback;
+public class MediaSessionCallback : MediaSessionCompat.Callback
+{
+    private readonly MediaNotificationManager _notificationManager = new();
+    
+    public Action? OnPlayCommand { get; set; }
+    public Action? OnPauseCommand { get; set; }
+    
+    public override void OnPlay()
+    {
+        OnPlayCommand?.Invoke();
+    }
+
+    public override void OnPause()
+    {
+        OnPauseCommand?.Invoke();
+    }
+}
