@@ -1,14 +1,7 @@
-using System.Diagnostics;
-using Android.App;
 using Android.Content;
-using Android.Graphics;
 using Android.Media.Session;
-using Android.OS;
 using Android.Support.V4.Media;
 using Android.Support.V4.Media.Session;
-using AndroidX.Core.App;
-using Microsoft.Maui.Controls.PlatformConfiguration;
-using Microsoft.Maui.Platform;
 
 namespace Maui.Audio.Player.MediaInfoManager;
 
@@ -91,35 +84,5 @@ public partial class MediaInfoManager : IMediaInfoManager
     public void SetPreviousCommand(Action action)
     {
         _mediaSessionCallback.OnSkipToPreviousCommand = action;
-    }
-}
-
-public class MediaSessionCallback : MediaSessionCompat.Callback
-{
-    private readonly MediaNotificationManager _notificationManager = new();
-    
-    public Action? OnPlayCommand { get; set; }
-    public Action? OnPauseCommand { get; set; }
-    public Action? OnSkipToNextCommand { get; set; }
-    public Action? OnSkipToPreviousCommand { get; set; }
-    
-    public override void OnPlay()
-    {
-        OnPlayCommand?.Invoke();
-    }
-
-    public override void OnPause()
-    {
-        OnPauseCommand?.Invoke();
-    }
-
-    public override void OnSkipToNext()
-    {
-        OnSkipToNextCommand?.Invoke();
-    }
-
-    public override void OnSkipToPrevious()
-    {
-        OnSkipToPreviousCommand?.Invoke();
     }
 }
