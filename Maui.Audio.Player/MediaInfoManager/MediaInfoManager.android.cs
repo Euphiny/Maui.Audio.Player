@@ -64,8 +64,10 @@ public partial class MediaInfoManager : IMediaInfoManager
         var state = new PlaybackStateCompat.Builder()
             .SetActions(
                 PlaybackStateCompat.ActionPlay |
-                PlaybackStateCompat.ActionPlayPause)
-            ?.SetState(playState, 0, 1f)
+                PlaybackStateCompat.ActionPlayPause |
+                PlaybackState.ActionSkipToNext |
+                PlaybackState.ActionSkipToPrevious)
+            ?.SetState(playState, (long)playerInfo.Progress * 1000, 1f)
             ?.Build();
         
         _mediaSession?.SetPlaybackState(state);
@@ -83,12 +85,12 @@ public partial class MediaInfoManager : IMediaInfoManager
 
     public void SetNextCommand(Action action)
     {
-        
+        _mediaSessionCallback.OnSkipToNextCommand = action;
     }
 
     public void SetPreviousCommand(Action action)
     {
-        
+        _mediaSessionCallback.OnSkipToPreviousCommand = action;
     }
 }
 
@@ -98,6 +100,8 @@ public class MediaSessionCallback : MediaSessionCompat.Callback
     
     public Action? OnPlayCommand { get; set; }
     public Action? OnPauseCommand { get; set; }
+    public Action? OnSkipToNextCommand { get; set; }
+    public Action? OnSkipToPreviousCommand { get; set; }
     
     public override void OnPlay()
     {
@@ -107,5 +111,15 @@ public class MediaSessionCallback : MediaSessionCompat.Callback
     public override void OnPause()
     {
         OnPauseCommand?.Invoke();
+    }
+
+    public override void OnSkipToNext()
+    {
+        OnSkipToNextCommand?.Invoke();
+    }
+
+    public override void OnSkipToPrevious()
+    {
+        OnSkipToPreviousCommand?.Invoke();
     }
 }
