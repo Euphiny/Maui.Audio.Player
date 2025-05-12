@@ -18,7 +18,9 @@ public partial class MainPage : ContentPage
 
 	private void OnCounterClicked(object sender, EventArgs e)
 	{
-		var url = _configuration.GetValue<string>("AudioUrl");
+		var section = _configuration.GetSection("AudioUrls");
+		var enumerable = section.GetChildren();
+		var url = enumerable.FirstOrDefault()?.Value;
 		var mediaInfo = new MediaInfo("Name of song", "Artist name", 100);
 
 		if (string.IsNullOrEmpty(url))
