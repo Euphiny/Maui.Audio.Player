@@ -10,6 +10,8 @@ public partial class MainPage : ContentPage
 	
 	public MainPage(IAudioPlayerController audioPlayerController, IConfiguration configuration)
 	{
+		BindingContext = new MainPageViewModel(audioPlayerController, configuration);
+		
 		_audioPlayerController = audioPlayerController;
 		_configuration = configuration;
 		
