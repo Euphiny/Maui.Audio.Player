@@ -16,6 +16,9 @@ public class MainPageViewModel : INotifyPropertyChanged
     
     public ICommand PlayPauseCommand { get; }
     
+    public ICommand SkipToPreviousCommand { get; }
+    public ICommand SkipToNextCommand { get; }
+    
     public MainPageViewModel(IAudioPlayerController audioPlayerController, IConfiguration configuration)
     {
         _audioPlayerController = audioPlayerController;
@@ -27,6 +30,9 @@ public class MainPageViewModel : INotifyPropertyChanged
             .ToList();
 
         PlayPauseCommand = new Command(PlayPause);
+
+        SkipToPreviousCommand = new Command(SkipToPrevious);
+        SkipToNextCommand = new Command(SkipToNext);
     }
 
     private void PlayPause()
@@ -42,6 +48,26 @@ public class MainPageViewModel : INotifyPropertyChanged
         }
         
         _audioPlayerController.Pause();
+    }
+    
+    private void SkipToPrevious()
+    {
+        _index =- 1;
+        
+        if (_index < 0)
+            _index = _audioUrls.Count - 1;
+        
+        PlayNewSong();
+    }
+    
+    private void SkipToNext()
+    {
+        _index =+ 1;
+        
+        if (_index >= _audioUrls.Count)
+            _index = 0;
+        
+        PlayNewSong();
     }
 
     private void PlayNewSong()

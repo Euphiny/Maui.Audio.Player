@@ -8,29 +8,22 @@
 
     <ScrollView>
         <VerticalStackLayout Padding="30,0" Spacing="25">
-            <Image
-                Aspect="AspectFit"
-                HeightRequest="185"
-                SemanticProperties.Description="dot net bot in a hovercraft number nine"
-                Source="dotnet_bot.png" />
+            <Grid ColumnDefinitions="*, *, *" ColumnSpacing="5">
+                <Button
+                    Command="{Binding SkipToPreviousCommand}"
+                    Grid.Column="0"
+                    Text="Previous" />
 
-            <Label
-                SemanticProperties.HeadingLevel="Level1"
-                Style="{StaticResource Headline}"
-                Text="Hello, World!" />
+                <Button
+                    Command="{Binding PlayPauseCommand}"
+                    Grid.Column="1"
+                    Text="Play" />
 
-            <Label
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                SemanticProperties.HeadingLevel="Level2"
-                Style="{StaticResource SubHeadline}"
-                Text="Welcome to &#10;.NET Multi-platform App UI" />
-
-            <Button
-                Command="{Binding PlayPauseCommand}"
-                HorizontalOptions="Fill"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Text="Click me"
-                x:Name="CounterBtn" />
+                <Button
+                    Command="{Binding SkipToNextCommand}"
+                    Grid.Column="2"
+                    Text="Next" />
+            </Grid>
         </VerticalStackLayout>
     </ScrollView>
 
