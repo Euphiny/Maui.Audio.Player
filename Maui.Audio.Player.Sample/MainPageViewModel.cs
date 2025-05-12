@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using Maui.Audio.Player.AudioPlayerController;
 using Microsoft.Extensions.Configuration;
 
@@ -11,6 +12,9 @@ public class MainPageViewModel : INotifyPropertyChanged
     
     private readonly IAudioPlayerController _audioPlayerController;
     private readonly List<string> _audioUrls;
+    private int _index = 0;
+    
+    public ICommand PlayPauseCommand { get; }
     
     public MainPageViewModel(IAudioPlayerController audioPlayerController, IConfiguration configuration)
     {
@@ -21,6 +25,31 @@ public class MainPageViewModel : INotifyPropertyChanged
             .GetChildren()
             .Select(item => item.Value!)
             .ToList();
+
+        PlayPauseCommand = new Command(PlayPause);
+    }
+
+    private void PlayPause()
+    {
+        var playerInfo = _audioPlayerController.PlayerInfo;
+
+        if (!playerInfo.IsPlaying)
+        {
+            PlayNewSong();
+            _audioPlayerController.Play();
+
+            return;
+        }
+        
+        _audioPlayerController.Pause();
+    }
+
+    private void PlayNewSong()
+    {
+        var url = _audioUrls[_index];
+        var mediaInfo = new MediaInfo($"Song {_index}", $"Artist {_index}", 100);
+        
+        _audioPlayerController.Start(url, mediaInfo);
     }
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
