@@ -12,8 +12,11 @@ namespace Maui.Audio.Player.MediaInfoManager;
 public class MediaNotificationManager
 {
     private const string ChannelId = "audio_player_channel";
+    public const int NotificationId = 1;
 
     private static bool _isInitialized;
+    
+    public static MediaNotificationManager Instance { get; } = new();
     
     public void CreateNotificationChannel()
     {
@@ -52,5 +55,11 @@ public class MediaNotificationManager
             .SetStyle(mediaStyle);
 
         return builder.Build();
+    }
+
+    public void ShowNotification(Notification notification)
+    {
+        var compatManager = NotificationManagerCompat.From(Platform.AppContext);
+        compatManager?.Notify(NotificationId, notification);
     }
 }

@@ -17,8 +17,6 @@ namespace Maui.Audio.Player.MediaInfoManager;
 public class MediaSessionService : MediaBrowserServiceCompat
 {
     private MediaSessionCompat? _mediaSession;
-
-    private MediaNotificationManager _notificationManager = new();
     
     public override BrowserRoot OnGetRoot(string clientPackageName, int clientUid, Bundle rootHints)
         => new (nameof(ApplicationContext.ApplicationInfo.Name), null);
@@ -37,11 +35,10 @@ public class MediaSessionService : MediaBrowserServiceCompat
         _mediaSession = MediaInfoManager.MediaSession;
         SessionToken = _mediaSession?.SessionToken;
         
-        _notificationManager.CreateNotificationChannel();
-        var notification = _notificationManager.CreateNotification(_mediaSession!);
+        MediaNotificationManager.Instance.CreateNotificationChannel();
+        var notification = MediaNotificationManager.Instance.CreateNotification(_mediaSession!);
 
-        StartForeground(1, notification);
-        var compatManager = NotificationManagerCompat.From(Platform.AppContext);
-        compatManager?.Notify(1, notification);
+        StartForeground(MediaNotificationManager.NotificationId, notification);
+        MediaNotificationManager.Instance.ShowNotification(notification);
     }
 }
