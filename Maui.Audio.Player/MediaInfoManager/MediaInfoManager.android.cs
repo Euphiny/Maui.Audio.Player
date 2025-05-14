@@ -43,10 +43,16 @@ public partial class MediaInfoManager : IMediaInfoManager
         
         _mediaSession.SetMetadata(metadata);
         _mediaSession.Active = true;
-        
-        if (!_serviceIsInitialized)
-            Android.App.Application.Context.StartForegroundService(new Intent(Android.App.Application.Context, typeof(MediaSessionService)));
 
+        if (_serviceIsInitialized)
+        {
+            var notification = MediaNotificationManager.Instance.CreateNotification(_mediaSession);
+            MediaNotificationManager.Instance.ShowNotification(notification);
+
+            return;
+        }
+
+        Android.App.Application.Context.StartForegroundService(new Intent(Android.App.Application.Context, typeof(MediaSessionService)));
         _serviceIsInitialized = true;
     }
 
