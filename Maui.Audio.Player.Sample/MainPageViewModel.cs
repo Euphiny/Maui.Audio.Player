@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Maui.Audio.Player.AudioPlayerController;
+using Maui.Audio.Player.MediaInfoManager;
 using Microsoft.Extensions.Configuration;
 
 namespace Maui.Audio.Player.Sample;
@@ -27,7 +28,10 @@ public class MainPageViewModel : INotifyPropertyChanged
     public ICommand SkipToPreviousCommand { get; }
     public ICommand SkipToNextCommand { get; }
     
-    public MainPageViewModel(IAudioPlayerController audioPlayerController, IConfiguration configuration)
+    public MainPageViewModel(
+        IAudioPlayerController audioPlayerController, 
+        IMediaInfoManager mediaInfoManager, 
+        IConfiguration configuration)
     {
         _audioPlayerController = audioPlayerController;
         
@@ -39,6 +43,9 @@ public class MainPageViewModel : INotifyPropertyChanged
 
         PlayPauseCommand = new Command(PlayPause);
 
+        mediaInfoManager.SetPreviousCommand(SkipToPrevious);
+        mediaInfoManager.SetNextCommand(SkipToNext);
+        
         SkipToPreviousCommand = new Command(SkipToPrevious);
         SkipToNextCommand = new Command(SkipToNext);
     }
@@ -60,7 +67,7 @@ public class MainPageViewModel : INotifyPropertyChanged
     
     private void SkipToPrevious()
     {
-        _index =- 1;
+        _index -= 1;
         
         if (_index < 0)
             _index = _audioUrls.Count - 1;
@@ -70,7 +77,7 @@ public class MainPageViewModel : INotifyPropertyChanged
     
     private void SkipToNext()
     {
-        _index =+ 1;
+        _index += 1;
         
         if (_index >= _audioUrls.Count)
             _index = 0;
