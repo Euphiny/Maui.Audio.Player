@@ -8,6 +8,9 @@
 
     <ScrollView>
         <VerticalStackLayout Padding="30,0" Spacing="25">
+            <Label Text="{Binding CurrentMediaInfo.Title, StringFormat='Currently playing: {}'}" />
+            <Label Text="{Binding CurrentMediaInfo.Artist, StringFormat='By: {}'}" />
+
             <Grid ColumnDefinitions="*, *, *" ColumnSpacing="5">
                 <Button
                     Command="{Binding SkipToPreviousCommand}"

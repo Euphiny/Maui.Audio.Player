@@ -14,6 +14,14 @@ public class MainPageViewModel : INotifyPropertyChanged
     private readonly List<string> _audioUrls;
     private int _index = 0;
     
+    private MediaInfo? _currentMediaInfo;
+
+    public MediaInfo? CurrentMediaInfo
+    {
+        get => _currentMediaInfo;
+        set => SetField(ref _currentMediaInfo, value);
+    }
+    
     public ICommand PlayPauseCommand { get; }
     
     public ICommand SkipToPreviousCommand { get; }
@@ -73,9 +81,9 @@ public class MainPageViewModel : INotifyPropertyChanged
     private void PlayNewSong()
     {
         var url = _audioUrls[_index];
-        var mediaInfo = new MediaInfo($"Song {_index}", $"Artist {_index}", 100);
+        CurrentMediaInfo = new MediaInfo($"Song {_index}", $"Artist {_index}", 100);
         
-        _audioPlayerController.Start(url, mediaInfo);
+        _audioPlayerController.Start(url, CurrentMediaInfo);
     }
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
