@@ -15,6 +15,7 @@ public class MediaNotificationManager
     public const int NotificationId = 1;
 
     private static bool _isInitialized;
+    public AudioPlayerOptions? Options { get; set; }
     
     public static MediaNotificationManager Instance { get; } = new();
     
@@ -46,13 +47,15 @@ public class MediaNotificationManager
             .SetMediaSession(mediaSession.SessionToken)
             ?.SetShowActionsInCompactView(0);
         
+        var icon = Options?.IconResource ?? Resource.Drawable.abc_ic_go_search_api_material;
+        
         var builder = new NotificationCompat.Builder(Platform.AppContext, ChannelId)
             .SetContentIntent(mediaSession.Controller?.SessionActivity)
             ?.SetContentTitle(metadata.GetString(MediaMetadataCompat.MetadataKeyTitle))
             ?.SetContentText(metadata.GetString(MediaMetadataCompat.MetadataKeyArtist))
-            ?.SetLargeIcon(BitmapFactory.DecodeResource(Platform.AppContext.Resources, Resource.Drawable.abc_ic_go_search_api_material))
-            .SetSmallIcon(Resource.Drawable.abc_ic_go_search_api_material)
-            .SetStyle(mediaStyle);
+            ?.SetLargeIcon(BitmapFactory.DecodeResource(Platform.AppContext.Resources, icon))
+            ?.SetSmallIcon(icon)
+            ?.SetStyle(mediaStyle);
 
         return builder.Build();
     }
