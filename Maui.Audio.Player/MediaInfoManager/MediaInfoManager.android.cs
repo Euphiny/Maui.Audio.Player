@@ -10,20 +10,21 @@ public partial class MediaInfoManager : IMediaInfoManager
     private const string SessionTag = "Maui.Audio.Player.MediaInfoManager";
 
     private static bool _serviceIsInitialized;
-    private static int _pendingIntentId = 0;
-    
-    private readonly MediaSessionCallback _mediaSessionCallback = new();
     
     private static MediaSessionCompat? _mediaSession;
-    
     public static MediaSessionCompat? MediaSession => _mediaSession;
+    
+    private readonly MediaSessionCallback _mediaSessionCallback = new();
     
     public MediaInfoManager()
     {
         _mediaSession = new MediaSessionCompat(Android.App.Application.Context, SessionTag);
         
         _mediaSession.SetCallback(_mediaSessionCallback);
+        
+#pragma warning disable CS0618 // Type or member is obsolete
         _mediaSession.SetFlags(MediaSessionCompat.FlagHandlesMediaButtons | MediaSessionCompat.FlagHandlesTransportControls);
+#pragma warning restore CS0618 // Type or member is obsolete
     }
     
     public void Initialize()

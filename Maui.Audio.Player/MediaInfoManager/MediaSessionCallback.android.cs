@@ -4,8 +4,6 @@ namespace Maui.Audio.Player.MediaInfoManager;
 
 public class MediaSessionCallback : MediaSessionCompat.Callback
 {
-    private readonly MediaNotificationManager _notificationManager = new();
-    
     public Action? OnPlayCommand { get; set; }
     public Action? OnPauseCommand { get; set; }
     public Action? OnSkipToNextCommand { get; set; }

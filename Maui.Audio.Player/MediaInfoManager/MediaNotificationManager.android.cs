@@ -47,7 +47,7 @@ public class MediaNotificationManager
             .SetMediaSession(mediaSession.SessionToken)
             ?.SetShowActionsInCompactView(0);
         
-        var icon = Options?.IconResource ?? Resource.Drawable.abc_ic_go_search_api_material;
+        var icon = Options?.IconResource ?? _Microsoft.Android.Resource.Designer.Resource.Drawable.abc_ic_go_search_api_material;
         
         var builder = new NotificationCompat.Builder(Platform.AppContext, ChannelId)
             .SetContentIntent(mediaSession.Controller?.SessionActivity)
@@ -56,8 +56,9 @@ public class MediaNotificationManager
             ?.SetLargeIcon(BitmapFactory.DecodeResource(Platform.AppContext.Resources, icon))
             ?.SetSmallIcon(icon)
             ?.SetStyle(mediaStyle);
-
-        return builder.Build();
+        
+        return builder?.Build() 
+               ?? throw new NullReferenceException("Notification builder could not be null.");
     }
 
     public void ShowNotification(Notification notification)
