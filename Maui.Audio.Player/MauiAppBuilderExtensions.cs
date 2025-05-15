@@ -10,7 +10,9 @@ public static class MauiAppBuilderExtensions
         builder.Services.AddSingleton<IMediaInfoManager, MediaInfoManager.MediaInfoManager>();
         builder.Services.AddSingleton<IAudioPlayerController, AudioPlayerController.AudioPlayerController>();
 
+        #if ANDROID
         MediaNotificationManager.Instance.Options = options;
+        #endif
         
         return builder;
     }
