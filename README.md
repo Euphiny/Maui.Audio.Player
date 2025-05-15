@@ -1,6 +1,6 @@
 # Maui.Audio.Player
 
-A package which allows you to play audio in your MAUI application. Either use it as standalone solution or integrate with platform specific session display implementations such as iOS's `NowPlayingInfoCenter` and Android's `MediaSession`.
+A package which allows you to play audio in your MAUI application. Either use it as a standalone solution or integrate with platform-specific session display implementations such as iOS's `NowPlayingInfoCenter` and Android's `MediaSession`.
 
 > [!WARNING]  
 > The integration with `MediaSession` on Android is not yet fully implemented.
@@ -21,15 +21,21 @@ This package provides 3 services, these are:
 2. `MediaInfoManager`, used to set and update the session details using `NowPlayingInfoCenter` or `MediaSession`.
 3. `AudioPlayerController`, the service which combines the `AudioPlayer` and the `MediaInfoManager` together to provide an all-in-one api.
 
-To add these services to the dependency container, call `UseMauiAudioPlayer` in your `MauiAppBuilderExtensions.cs` file:
+To add these services to the dependency container, call `UseMauiAudioPlayer` in your `MauiAppBuilderExtensions.cs` file. It is advised to create an AudioPlayerOptions object and use it as an argument to initialize the audio player. Currently only the IconResource is requested on Android, which is used by the media notification as app icon.
 
 ```c#
 public static MauiApp CreateMauiApp()
 {
+    var audioPlayerOptions = new AudioPlayerOptions();
+    
+    #if ANDROID
+    audioPlayerOptions.IconResource = Resource.Drawable.Icon;
+    #endif
+    
     var builder = MauiApp.CreateBuilder();
     builder
         .UseMauiApp<App>()
-        .UseMauiAudioPlayer()
+        .UseMauiAudioPlayer(audioPlayerOptions)
         .ConfigureFonts(fonts =>
         {
             fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
