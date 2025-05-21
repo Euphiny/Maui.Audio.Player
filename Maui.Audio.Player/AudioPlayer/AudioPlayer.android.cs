@@ -10,8 +10,13 @@ public partial class AudioPlayer : IAudioPlayer
     
     private bool _isDisposed;
     
+    [Obsolete("Use CurrentProgress instead.")]
     public double Progress => _mediaPlayer.CurrentPosition / 1000d;
+    [Obsolete("Use TotalDuration instead.")]
     public double Duration { get; }
+
+    public TimeSpan CurrentProgress => TimeSpan.FromMilliseconds(_mediaPlayer.CurrentPosition);
+    public TimeSpan TotalDuration { get; }
     public bool IsPlaying => _mediaPlayer.IsPlaying;
 
     public AudioPlayer(string url, double duration)

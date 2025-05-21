@@ -11,8 +11,13 @@ public partial class AudioPlayer : IAudioPlayer
     private readonly AVPlayer _player;
     private readonly NSObject _playbackStoppedObserver;
 
+    [Obsolete("Use CurrentProgress instead.")]
     public double Progress => _player.CurrentTime.Seconds;
+    [Obsolete("Use TotalDuration instead.")]
     public double Duration { get; }
+    
+    public TimeSpan CurrentProgress => TimeSpan.FromSeconds(_player.CurrentTime.Seconds);
+    public TimeSpan TotalDuration { get; }
 
     public bool IsPlaying => _player.TimeControlStatus == AVPlayerTimeControlStatus.Playing;
 
