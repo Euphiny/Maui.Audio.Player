@@ -42,7 +42,8 @@ public partial class MediaInfoManager : IMediaInfoManager
     {
         var metadata = new MediaMetadataCompat.Builder()
             .PutString(MediaMetadataCompat.MetadataKeyTitle, mediaInfo.Title)
-            ?.PutString(MediaMetadataCompat.MetadataKeyArtist, mediaInfo.Artist);
+            ?.PutString(MediaMetadataCompat.MetadataKeyArtist, mediaInfo.Artist)
+            ?.PutLong(MediaMetadataCompat.MetadataKeyDuration, (long)mediaInfo.TotalDuration.TotalMilliseconds);
 
         var imageUrl = mediaInfo.ImageUrl;
         
@@ -95,7 +96,7 @@ public partial class MediaInfoManager : IMediaInfoManager
                 PlaybackStateCompat.ActionPlayPause |
                 PlaybackState.ActionSkipToNext |
                 PlaybackState.ActionSkipToPrevious)
-            ?.SetState(playState, (long)playerInfo.Progress * 1000, 1f)
+            ?.SetState(playState, playerInfo.CurrentProgress.Milliseconds, 1f)
             ?.Build();
         
         _mediaSession?.SetPlaybackState(state);

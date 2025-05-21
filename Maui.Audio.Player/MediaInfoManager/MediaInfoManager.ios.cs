@@ -24,7 +24,7 @@ public partial class MediaInfoManager : IMediaInfoManager
         {
             Title = mediaInfo.Title,
             Artist = mediaInfo.Artist,
-            PlaybackDuration = mediaInfo.Duration,
+            PlaybackDuration = mediaInfo.TotalDuration.TotalSeconds,
             ElapsedPlaybackTime = 0,
             PlaybackRate = 1.0f
         };
@@ -44,7 +44,7 @@ public partial class MediaInfoManager : IMediaInfoManager
 
     public void SetPlayerInfo(PlayerInfo playerInfo)
     {
-        MPNowPlayingInfoCenter.DefaultCenter.NowPlaying.ElapsedPlaybackTime = (float)playerInfo.Progress;
+        MPNowPlayingInfoCenter.DefaultCenter.NowPlaying.ElapsedPlaybackTime = (float)playerInfo.CurrentProgress.TotalSeconds;
     }
 
     public void SetPauseCommand(Action action)
