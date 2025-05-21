@@ -13,6 +13,7 @@ public class MainPageViewModel : INotifyPropertyChanged
     
     private readonly IAudioPlayerController _audioPlayerController;
     private readonly List<string> _audioUrls;
+    private readonly List<string> _imageUrls;
     private int _index = 0;
     
     private MediaInfo? _currentMediaInfo;
@@ -37,6 +38,12 @@ public class MainPageViewModel : INotifyPropertyChanged
         
         _audioUrls = configuration
             .GetSection("AudioUrls")
+            .GetChildren()
+            .Select(item => item.Value!)
+            .ToList();
+        
+        _imageUrls = configuration
+            .GetSection("Images")
             .GetChildren()
             .Select(item => item.Value!)
             .ToList();
@@ -88,7 +95,7 @@ public class MainPageViewModel : INotifyPropertyChanged
     private void PlayNewSong()
     {
         var url = _audioUrls[_index];
-        CurrentMediaInfo = new MediaInfo($"Song {_index}", $"Artist {_index}", 100);
+        CurrentMediaInfo = new MediaInfo($"Song {_index}", $"Artist {_index}", 100, _imageUrls[_index]);
         
         _audioPlayerController.Start(url, CurrentMediaInfo);
     }
