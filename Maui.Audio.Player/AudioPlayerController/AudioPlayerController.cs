@@ -10,7 +10,7 @@ public class AudioPlayerController : IAudioPlayerController
     private IAudioPlayer? _player;
     private MediaInfo? _mediaInfo;
     
-    public PlayerInfo PlayerInfo => new(_player?.Duration ?? 0, _player?.Progress ?? 0, _player?.IsPlaying ?? false);
+    public PlayerInfo PlayerInfo => new(_player?.TotalDuration, _player?.CurrentProgress, _player?.IsPlaying ?? false);
     
     public event EventHandler? PlaybackEnded;
     
@@ -30,7 +30,7 @@ public class AudioPlayerController : IAudioPlayerController
         
         _mediaInfo = mediaInfo;
         
-        _player = new AudioPlayer.AudioPlayer(url, mediaInfo.Duration);
+        _player = new AudioPlayer.AudioPlayer(url, mediaInfo.TotalDuration);
         _player.PlaybackEnded += PlayerOnPlaybackEnded;
 
         Play();
