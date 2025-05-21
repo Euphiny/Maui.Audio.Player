@@ -11,7 +11,7 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">26.0</SupportedOSPlatformVersion>
 
         <PackageId>Euphiny.Maui.Audio.Player</PackageId>
-        <Version>1.1.0</Version>
+        <Version>1.2.0</Version>
         <Authors>joh-an-ng</Authors>
         <Company>Euphiny</Company>
         <Title>Euphiny.Maui.Audio.Player</Title>
