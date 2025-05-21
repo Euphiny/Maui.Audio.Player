@@ -53,7 +53,7 @@ public class MediaNotificationManager
             .SetContentIntent(mediaSession.Controller?.SessionActivity)
             ?.SetContentTitle(metadata.GetString(MediaMetadataCompat.MetadataKeyTitle))
             ?.SetContentText(metadata.GetString(MediaMetadataCompat.MetadataKeyArtist))
-            ?.SetLargeIcon(BitmapFactory.DecodeResource(Platform.AppContext.Resources, icon))
+            ?.SetLargeIcon(metadata.GetBitmap(MediaMetadataCompat.MetadataKeyAlbumArt))
             ?.SetSmallIcon(icon)
             ?.SetStyle(mediaStyle);
         

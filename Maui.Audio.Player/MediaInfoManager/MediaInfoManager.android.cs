@@ -1,7 +1,13 @@
 using Android.Content;
+using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.Media.Session;
 using Android.Support.V4.Media;
 using Android.Support.V4.Media.Session;
+using Bumptech.Glide;
+using Bumptech.Glide.Request.Target;
+using Bumptech.Glide.Request.Transition;
+using Object = Java.Lang.Object;
 
 namespace Maui.Audio.Player.MediaInfoManager;
 
@@ -36,20 +42,42 @@ public partial class MediaInfoManager : IMediaInfoManager
     {
         var metadata = new MediaMetadataCompat.Builder()
             .PutString(MediaMetadataCompat.MetadataKeyTitle, mediaInfo.Title)
-            ?.PutString(MediaMetadataCompat.MetadataKeyArtist, mediaInfo.Artist)
-            ?.Build();
+            ?.PutString(MediaMetadataCompat.MetadataKeyArtist, mediaInfo.Artist);
 
+        var imageUrl = mediaInfo.ImageUrl;
+        
+        if (!string.IsNullOrEmpty(imageUrl))
+        {
+            var bitmap = Task.Run(async () =>
+            {
+                try
+                {
+                    using var httpClient = new HttpClient();
+                    var imageBytes = await httpClient.GetByteArrayAsync(imageUrl);
+                    return BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error loading bitmap: {ex.Message}");
+                    return null;
+                }
+            }).GetAwaiter().GetResult();
+            
+            metadata?.PutBitmap(MediaMetadataCompat.MetadataKeyAlbumArt, bitmap);
+        }
+
+        var builtMetadata = metadata?.Build();
+        
         if (_mediaSession == null)
             return;
         
-        _mediaSession.SetMetadata(metadata);
+        _mediaSession.SetMetadata(builtMetadata);
         _mediaSession.Active = true;
 
         if (_serviceIsInitialized)
         {
             var notification = MediaNotificationManager.Instance.CreateNotification(_mediaSession);
             MediaNotificationManager.Instance.ShowNotification(notification);
-
             return;
         }
 
