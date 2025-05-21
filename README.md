@@ -2,9 +2,6 @@
 
 A package which allows you to play audio in your MAUI application. Either use it as a standalone solution or integrate with platform-specific session display implementations such as iOS's `NowPlayingInfoCenter` and Android's `MediaSession`.
 
-> [!WARNING]  
-> The integration with `MediaSession` on Android is not yet fully implemented.
-
 ## Features
 - Play audio through HTTP streaming.
 - Integrate with `NowPlayingInfoCenter` or `MediaSession`.
@@ -51,15 +48,16 @@ It is than possible to take `IAudioPlayerController` as constructor argument and
 ```c#
 public void PlayAudio() 
 {
-    var url = "https://song-url.com"
-    var durationInSeconds = 178.2;
+    var url = "https://song-url.com";
+    var imageUrl = "https://image-url.com";
+    var duration = TimeSpan.FromSeconds(150);
     var artists = new List<string>() 
     {
         "Artist 1",
         "Artist 2"
-    }
+    };
     
-    var mediaInfo = new MediaInfo("Name of the song", string.Join(", ", artists), durationInSeconds);
+    var mediaInfo = new MediaInfo("Name of the song", string.Join(", ", artists), duration, imageUrl);
         
     _audioPlayerController.Start(url, mediaInfo);
 }
