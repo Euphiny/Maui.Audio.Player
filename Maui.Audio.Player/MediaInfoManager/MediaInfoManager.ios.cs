@@ -1,4 +1,6 @@
 using AVFoundation;
+using CoreGraphics;
+using Foundation;
 using MediaPlayer;
 using UIKit;
 
@@ -18,7 +20,7 @@ public partial class MediaInfoManager : IMediaInfoManager
 
     public void SetMediaInfo(MediaInfo mediaInfo)
     {
-        MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = new MPNowPlayingInfo
+        var nowPlayingInfo = new MPNowPlayingInfo
         {
             Title = mediaInfo.Title,
             Artist = mediaInfo.Artist,
@@ -26,6 +28,18 @@ public partial class MediaInfoManager : IMediaInfoManager
             ElapsedPlaybackTime = 0,
             PlaybackRate = 1.0f
         };
+
+        var imageUrl = mediaInfo.ImageUrl;
+        
+        if (!string.IsNullOrEmpty(imageUrl))
+        {
+            var fromBundle = UIImage.FromBundle(imageUrl);
+            
+            if (fromBundle != null)
+                nowPlayingInfo.Artwork = new MPMediaItemArtwork(new CGSize(fromBundle.Size.Width, fromBundle.Size.Height), _ => fromBundle);
+        }
+
+        MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = nowPlayingInfo;
     }
 
     public void SetPlayerInfo(PlayerInfo playerInfo)
