@@ -2,16 +2,20 @@ namespace Maui.Audio.Player;
 
 public class PlayerInfo
 {
-    public double Duration { get; }
+    [Obsolete("Use CurrentProgress instead.")]
+    public double Progress => CurrentProgress.TotalSeconds;
+    [Obsolete("Use TotalDuration instead.")]
+    public double Duration => TotalDuration.TotalSeconds;
     
-    public double Progress { get; }
+    public TimeSpan CurrentProgress { get; }
+    public TimeSpan TotalDuration { get; }
     
     public bool IsPlaying { get; }
     
-    internal PlayerInfo(double duration, double progress, bool isPlaying)
+    internal PlayerInfo(TimeSpan? duration, TimeSpan? progress, bool isPlaying)
     {
-        Duration = duration;
-        Progress = progress;
+        TotalDuration = duration ?? TimeSpan.Zero;
+        CurrentProgress = progress ?? TimeSpan.Zero;
         IsPlaying = isPlaying;
     }
 }
