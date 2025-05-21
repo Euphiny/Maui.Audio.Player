@@ -13,15 +13,21 @@ public partial class AudioPlayer : IAudioPlayer
     [Obsolete("Use CurrentProgress instead.")]
     public double Progress => _mediaPlayer.CurrentPosition / 1000d;
     [Obsolete("Use TotalDuration instead.")]
-    public double Duration { get; }
+    public double Duration => TotalDuration.TotalSeconds;
 
     public TimeSpan CurrentProgress => TimeSpan.FromMilliseconds(_mediaPlayer.CurrentPosition);
     public TimeSpan TotalDuration { get; }
     public bool IsPlaying => _mediaPlayer.IsPlaying;
 
-    public AudioPlayer(string url, double duration)
+    [Obsolete("Use overload with TimeSpan duration instead.")]
+    public AudioPlayer(string url, double duration) : this(url, TimeSpan.FromSeconds(duration))
     {
-        Duration = duration;
+        
+    }
+
+    public AudioPlayer(string url, TimeSpan duration)
+    {
+        TotalDuration = duration;
         _mediaPlayer = new MediaPlayer();
 
         var uri = Uri.Parse(url);

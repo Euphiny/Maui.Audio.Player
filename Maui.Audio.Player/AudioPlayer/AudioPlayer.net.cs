@@ -11,7 +11,10 @@ public partial class AudioPlayer : IAudioPlayer
     public TimeSpan TotalDuration { get; }
     public bool IsPlaying { get; }
 
+    [Obsolete("Use overload with TimeSpan duration instead.")]
     public AudioPlayer(string url, double duration) {}
+
+    public AudioPlayer(string url, TimeSpan duration) {}
     
     public void Play() {}
     public void Pause() { }

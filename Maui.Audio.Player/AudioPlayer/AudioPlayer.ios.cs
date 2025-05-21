@@ -14,16 +14,22 @@ public partial class AudioPlayer : IAudioPlayer
     [Obsolete("Use CurrentProgress instead.")]
     public double Progress => _player.CurrentTime.Seconds;
     [Obsolete("Use TotalDuration instead.")]
-    public double Duration { get; }
+    public double Duration => TotalDuration.TotalSeconds;
     
     public TimeSpan CurrentProgress => TimeSpan.FromSeconds(_player.CurrentTime.Seconds);
     public TimeSpan TotalDuration { get; }
 
     public bool IsPlaying => _player.TimeControlStatus == AVPlayerTimeControlStatus.Playing;
 
-    public AudioPlayer(string url, double duration)
+    [Obsolete("Use overload with TimeSpan duration instead.")]
+    public AudioPlayer(string url, double duration) : this(url, TimeSpan.FromSeconds(duration))
     {
-        Duration = duration;
+        
+    }
+
+    public AudioPlayer(string url, TimeSpan duration)
+    {
+        TotalDuration = duration;
         
         var nsUrl = new NSUrl(url);
         _player = new AVPlayer(nsUrl);
@@ -62,7 +68,7 @@ public partial class AudioPlayer : IAudioPlayer
 
     private void CheckPlaybackStopped(CMTime time)
     {
-        if (Math.Floor(Progress) >= Math.Floor(Duration))
+        if (Math.Floor(CurrentProgress.TotalSeconds) >= Math.Floor(TotalDuration.TotalSeconds))
         {
             _player.RemoveTimeObserver(_playbackStoppedObserver);
             PlaybackEnded?.Invoke(this, EventArgs.Empty);
