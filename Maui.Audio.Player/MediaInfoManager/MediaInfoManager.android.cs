@@ -40,39 +40,12 @@ public partial class MediaInfoManager : IMediaInfoManager
 
     public void SetMediaInfo(MediaInfo mediaInfo)
     {
-        var metadata = new MediaMetadataCompat.Builder()
-            .PutString(MediaMetadataCompat.MetadataKeyTitle, mediaInfo.Title)
-            ?.PutString(MediaMetadataCompat.MetadataKeyArtist, mediaInfo.Artist)
-            ?.PutLong(MediaMetadataCompat.MetadataKeyDuration, (long)mediaInfo.TotalDuration.TotalMilliseconds);
-
-        var imageUrl = mediaInfo.ImageUrl;
-        
-        if (!string.IsNullOrEmpty(imageUrl))
-        {
-            var bitmap = Task.Run(async () =>
-            {
-                try
-                {
-                    using var httpClient = new HttpClient();
-                    var imageBytes = await httpClient.GetByteArrayAsync(imageUrl);
-                    return BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Error loading bitmap: {ex.Message}");
-                    return null;
-                }
-            }).GetAwaiter().GetResult();
-            
-            metadata?.PutBitmap(MediaMetadataCompat.MetadataKeyAlbumArt, bitmap);
-        }
-
-        var builtMetadata = metadata?.Build();
+        var metadata = BuildMediaMetaData(mediaInfo);
         
         if (_mediaSession == null)
             return;
         
-        _mediaSession.SetMetadata(builtMetadata);
+        _mediaSession.SetMetadata(metadata);
         _mediaSession.Active = true;
 
         if (_serviceIsInitialized)
@@ -120,5 +93,37 @@ public partial class MediaInfoManager : IMediaInfoManager
     public void SetPreviousCommand(Action action)
     {
         _mediaSessionCallback.OnSkipToPreviousCommand = action;
+    }
+    
+    private static MediaMetadataCompat? BuildMediaMetaData(MediaInfo mediaInfo)
+    {
+        var metadata = new MediaMetadataCompat.Builder()
+            .PutString(MediaMetadataCompat.MetadataKeyTitle, mediaInfo.Title)
+            ?.PutString(MediaMetadataCompat.MetadataKeyArtist, mediaInfo.Artist)
+            ?.PutLong(MediaMetadataCompat.MetadataKeyDuration, (long)mediaInfo.TotalDuration.TotalMilliseconds);
+
+        var imageUrl = mediaInfo.ImageUrl;
+
+        if (string.IsNullOrEmpty(imageUrl)) 
+            return metadata?.Build();
+        
+        var bitmap = Task.Run(async () =>
+        {
+            try
+            {
+                using var httpClient = new HttpClient();
+                var imageBytes = await httpClient.GetByteArrayAsync(imageUrl);
+                return BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error loading bitmap: {ex.Message}");
+                return null;
+            }
+        }).GetAwaiter().GetResult();
+            
+        metadata?.PutBitmap(MediaMetadataCompat.MetadataKeyAlbumArt, bitmap);
+
+        return metadata?.Build();
     }
 }
