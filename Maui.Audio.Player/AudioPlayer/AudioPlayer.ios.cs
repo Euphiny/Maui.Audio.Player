@@ -27,10 +27,14 @@ public partial class AudioPlayer : IAudioPlayer
         
     }
 
-    public AudioPlayer(string url, TimeSpan duration)
+    [Obsolete("Use overload which only takes the url as input.")]
+    public AudioPlayer(string url, TimeSpan duration) : this(url)
     {
-        TotalDuration = duration;
-        
+
+    }
+
+    public AudioPlayer(string url)
+    {
         var nsUrl = new NSUrl(url);
         _player = new AVPlayer(nsUrl);
 
