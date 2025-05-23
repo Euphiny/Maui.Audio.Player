@@ -97,7 +97,7 @@ public class MainPageViewModel : INotifyPropertyChanged
         var url = _audioUrls[_index];
         CurrentMediaInfo = new MediaInfo($"Song {_index}", $"Artist {_index}", TimeSpan.FromSeconds(100), _imageUrls[_index]);
         
-        _audioPlayerController.Start(url, CurrentMediaInfo);
+        _audioPlayerController.Start(new Uri(url), CurrentMediaInfo);
     }
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
