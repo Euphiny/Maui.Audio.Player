@@ -16,7 +16,7 @@
         <Company>Euphiny</Company>
         <Title>Euphiny.Maui.Audio.Player</Title>
         <Description>A package used to play audio and integrate with media sessions in your MAUI app.</Description>
-        <PackageTags>MAUI;Audio Player;MediaSessions;NowPlayingInfoCenter</PackageTags>
+        <PackageTags>MAUI;Audio;Music;Player;AudioPlayer;MusicPlayer;MediaSessions;NowPlayingInfoCenter</PackageTags>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <RepositoryUrl>https://github.com/Euphiny/Maui.Audio.Player</RepositoryUrl>
