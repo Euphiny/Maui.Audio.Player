@@ -16,7 +16,7 @@ public partial class AudioPlayer : IAudioPlayer
     public double Duration => TotalDuration.TotalSeconds;
 
     public TimeSpan CurrentProgress => TimeSpan.FromMilliseconds(_mediaPlayer.CurrentPosition);
-    public TimeSpan TotalDuration { get; }
+    public TimeSpan TotalDuration => TimeSpan.FromMilliseconds(_mediaPlayer.Duration);
     public bool IsPlaying => _mediaPlayer.IsPlaying;
 
     [Obsolete("Use overload with TimeSpan duration instead.")]
@@ -25,9 +25,13 @@ public partial class AudioPlayer : IAudioPlayer
         
     }
 
-    public AudioPlayer(string url, TimeSpan duration)
+    public AudioPlayer(string url, TimeSpan duration) : this(url)
     {
-        TotalDuration = duration;
+
+    }
+
+    public AudioPlayer(string url)
+    {
         _mediaPlayer = new MediaPlayer();
 
         var uri = Uri.Parse(url);
