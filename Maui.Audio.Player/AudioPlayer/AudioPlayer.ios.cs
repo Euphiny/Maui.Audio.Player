@@ -17,11 +17,11 @@ public partial class AudioPlayer : IAudioPlayer
     public double Duration => TotalDuration.TotalSeconds;
     
     public TimeSpan CurrentProgress => TimeSpan.FromSeconds(_player.CurrentTime.Seconds);
-    public TimeSpan TotalDuration { get; }
+    public TimeSpan TotalDuration => TimeSpan.FromSeconds(_player.CurrentItem?.Asset.Duration.Seconds ?? 0d);
 
     public bool IsPlaying => _player.TimeControlStatus == AVPlayerTimeControlStatus.Playing;
 
-    [Obsolete("Use overload with TimeSpan duration instead.")]
+    [Obsolete("Use overload which only takes the url as input.")]
     public AudioPlayer(string url, double duration) : this(url, TimeSpan.FromSeconds(duration))
     {
         
