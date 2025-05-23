@@ -2,6 +2,9 @@
 
 A package which allows you to play audio in your MAUI application. Either use it as a standalone solution or integrate with platform-specific session display implementations such as iOS's `NowPlayingInfoCenter` and Android's `MediaSession`.
 
+> [!NOTE]  
+> This package is still in development. Currently, this package is stable and ready to use, but it lacks some nice-to-have features like seeking the audio through the session display notification. If you need such features, you're welcome to submit an issue or PR and I'll take a look into it. 
+
 ## Features
 - Play audio through HTTP streaming.
 - Integrate with `NowPlayingInfoCenter` or `MediaSession`.
