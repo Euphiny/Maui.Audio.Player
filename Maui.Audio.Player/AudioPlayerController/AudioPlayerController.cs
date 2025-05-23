@@ -24,13 +24,13 @@ public class AudioPlayerController : IAudioPlayerController
         _mediaInfoManager.SetPlayCommand(Play);
     }
     
-    public void Start(string url, MediaInfo mediaInfo)
+    public void Start(Uri url, MediaInfo mediaInfo)
     {
         Stop();
         
         _mediaInfo = mediaInfo;
         
-        _player = new AudioPlayer.AudioPlayer(url, mediaInfo.TotalDuration);
+        _player = new AudioPlayer.AudioPlayer(url);
         _player.PlaybackEnded += PlayerOnPlaybackEnded;
 
         Play();

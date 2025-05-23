@@ -28,14 +28,14 @@ public partial class AudioPlayer : IAudioPlayer
     }
 
     [Obsolete("Use overload which only takes the url as input.")]
-    public AudioPlayer(string url, TimeSpan duration) : this(url)
+    public AudioPlayer(string url, TimeSpan duration) : this(new Uri(url))
     {
 
     }
 
-    public AudioPlayer(string url)
+    public AudioPlayer(Uri url)
     {
-        var nsUrl = new NSUrl(url);
+        var nsUrl = new NSUrl(url.AbsoluteUri);
         _player = new AVPlayer(nsUrl);
 
         _playbackStoppedObserver = _player.AddPeriodicTimeObserver(CMTime.FromSeconds(1, 1), null, CheckPlaybackStopped);

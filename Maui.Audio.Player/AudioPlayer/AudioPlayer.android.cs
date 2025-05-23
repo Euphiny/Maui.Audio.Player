@@ -25,16 +25,17 @@ public partial class AudioPlayer : IAudioPlayer
         
     }
 
-    public AudioPlayer(string url, TimeSpan duration) : this(url)
+    [Obsolete("Use overload which only takes the url as input.")]
+    public AudioPlayer(string url, TimeSpan duration) : this(new System.Uri(url))
     {
 
     }
 
-    public AudioPlayer(string url)
+    public AudioPlayer(System.Uri url)
     {
         _mediaPlayer = new MediaPlayer();
-
-        var uri = Uri.Parse(url);
+        
+        var uri = Uri.Parse(url.AbsoluteUri);
         if (uri == null)
             throw new ArgumentException("Invalid url");
 

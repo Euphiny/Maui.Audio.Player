@@ -11,10 +11,13 @@ public partial class AudioPlayer : IAudioPlayer
     public TimeSpan TotalDuration { get; }
     public bool IsPlaying { get; }
 
-    [Obsolete("Use overload with TimeSpan duration instead.")]
+    [Obsolete("Use overload which only takes the url as input.")]
     public AudioPlayer(string url, double duration) {}
 
+    [Obsolete("Use overload which only takes the url as input.")]
     public AudioPlayer(string url, TimeSpan duration) {}
+    
+    public AudioPlayer(Uri url) {}
     
     public void Play() {}
     public void Pause() { }
