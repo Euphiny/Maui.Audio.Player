@@ -17,7 +17,19 @@ public partial class AudioPlayer : IAudioPlayer
     public double Duration => TotalDuration.TotalSeconds;
     
     public TimeSpan CurrentProgress => TimeSpan.FromSeconds(_player.CurrentTime.Seconds);
-    public TimeSpan TotalDuration => TimeSpan.FromSeconds(_player.CurrentItem?.Asset.Duration.Seconds ?? 0d);
+
+    public TimeSpan TotalDuration
+    {
+        get
+        {
+            var duration = _player.CurrentItem?.Asset.Duration.Seconds ?? 0d;
+
+            if (!double.IsNaN(duration))
+                return TimeSpan.FromSeconds(duration);
+            
+            return TimeSpan.FromSeconds(0);
+        }
+    }
 
     public bool IsPlaying => _player.TimeControlStatus == AVPlayerTimeControlStatus.Playing;
 
