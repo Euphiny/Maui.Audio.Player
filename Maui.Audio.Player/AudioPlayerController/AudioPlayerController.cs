@@ -9,8 +9,19 @@ public class AudioPlayerController : IAudioPlayerController
     
     private IAudioPlayer? _player;
     private MediaInfo? _mediaInfo;
-    
-    public PlayerInfo PlayerInfo => new(_player?.TotalDuration, _player?.CurrentProgress, _player?.IsPlaying ?? false);
+
+    public PlayerInfo PlayerInfo
+    {
+        get
+        {
+            var duration = _player?.TotalDuration ?? TimeSpan.Zero;
+
+            if (duration == TimeSpan.Zero)
+                duration = _mediaInfo?.TotalDuration ?? TimeSpan.Zero;
+            
+            return new PlayerInfo(duration, _player?.CurrentProgress, _player?.IsPlaying ?? false);
+        }
+    }
     
     public event EventHandler? PlaybackEnded;
     
