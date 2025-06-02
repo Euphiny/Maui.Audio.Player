@@ -27,7 +27,7 @@ public partial class AudioPlayer : IAudioPlayer
             if (!double.IsNaN(duration))
                 return TimeSpan.FromSeconds(duration);
             
-            return TimeSpan.FromSeconds(0);
+            return TimeSpan.Zero;
         }
     }
 
